@@ -1,0 +1,72 @@
+@import '../../styles/variables';
+.movieInfo {
+  padding-top: 8px;
+    width: 100%;
+    
+    span {
+      color: $text;
+      opacity: .75;
+      @include bS;
+      @media(max-width:767.98px){
+        font-size: 11px;
+      }
+      &.year {
+        margin-right: 18px;
+      }
+      &.category::before,&.rating::before{      
+            content: "";
+            width: 3px;
+            height: 3px;
+            background-color: $text;
+            position: absolute;
+            top: 50%;
+            border-radius: 50%;
+            transform: translateY(-50%);
+            left: -10px;
+        
+      }
+      &.category {
+        position: relative;   
+        svg {
+            margin-right: 6px;
+          } 
+        }
+        &.rating{
+            margin-left: 20px;
+            position: relative;
+          }
+      
+     
+    }
+    h3 {
+     @include hXS;
+      color: $text;
+      margin-top: 3px;
+      @media(max-width:767.98px){
+        font-size: 14px;
+      }
+    }
+  }
+.customStyle {
+  padding: 24px;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.75) 100%
+  );
+  @media(max-width:767.98px){
+    padding: 16px;
+  } 
+  span{
+    @include bM;
+    @media(max-width:767.98px){
+      font-size: 12px;
+    }
+  }
+h3 {
+  @include hS;  
+  @media(max-width:767.98px){
+    font-size: 15px;
+  }  
+ }
+}

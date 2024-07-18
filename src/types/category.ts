@@ -1,0 +1,1 @@
+export type category='Movie' | "TV Series";

@@ -1,0 +1,51 @@
+@import '../../styles/variables';
+.searchBar{
+display: flex;
+align-items: flex-start;
+gap: 24px;
+padding-right: 36px;
+margin-bottom: 20px;
+@media(max-width:1024px){
+    padding-right: 24px;
+}
+@media(max-width:767.98px){
+    padding-right: 16px;
+    gap: 16px;
+    margin-bottom: 14px;
+}
+.searchIcon{
+    width: 32px;
+    height: 32px;
+    background-image: url(../../assets/icon-search.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    @media(max-width:767.98px){
+        width: 24px;
+        height: 24px;
+    }
+}
+input{
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 24px;
+    font-weight: 300;
+color:$text;
+   font-family: "Outfit", sans-serif;
+width: 100%;
+caret-color: $peach;
+padding-bottom: 14px;
+border-bottom: 1px solid transparent;
+flex: 1;
+@media(max-width:767.98px){
+    font-size: 16px;
+    padding-bottom: 10px;
+
+}
+&:focus{
+    border-bottom: 1px solid $dusk-blue;
+}
+
+}
+}

@@ -1,0 +1,42 @@
+@import '../../styles/variables';
+.mediaList{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    column-gap: 40px;
+    row-gap: 32px;
+    padding-right: 36px;
+    @media(max-width:1024px){
+        grid-template-columns: repeat(3,1fr);
+        column-gap: 28px;
+        row-gap: 24px;
+        padding-right: 24px;
+
+    }
+    @media(max-width:767.98px){
+        grid-template-columns: repeat(2,1fr);
+        column-gap: 16px;
+        row-gap: 16px;
+        padding-right: 16px;
+
+    }
+
+}
+.title{
+    @include title;
+    margin-bottom: 38px;
+    @media(max-width:1024px){
+        margin-bottom: 24px !important;
+    }
+        }
+#recommended .title{
+    margin-bottom: 32px;
+}
+#bookmarkedMovies{
+    margin-bottom: 40px;
+    @media(max-width:1024px){
+        margin-bottom: 48px;
+    }
+    @media(max-width:767.98px){
+        margin-bottom: 24px;
+    }
+}

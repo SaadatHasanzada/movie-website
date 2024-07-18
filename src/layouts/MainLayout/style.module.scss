@@ -1,0 +1,17 @@
+.mainLayout{
+    position: relative;
+    .mainContent{
+        padding: 64px 0 50px 36px;
+        width: calc(100% - 128px);
+    float: right;
+
+    @media(max-width:1024px){
+        width: 100%;
+        float: unset;
+        padding: 33px 0 50px 24px;
+    }
+    @media(max-width:767.98px){
+        padding: 24px 0 50px 16px;
+    }
+    }
+}

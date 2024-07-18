@@ -1,0 +1,23 @@
+@import '../../styles/variables';
+
+
+.playButton{
+    @include hXS;
+    align-items: center;
+    padding: 9px;
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 118px;
+    height: 48px;
+    border-radius: 28px;
+    background-color: rgb(255, 255, 255,.25);
+    gap:18px;
+    color: $text;
+    display: none;
+    z-index: 2;
+   }
+   .playButtonHovered{
+    display: flex;
+   }

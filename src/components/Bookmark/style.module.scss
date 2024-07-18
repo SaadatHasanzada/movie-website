@@ -1,0 +1,32 @@
+@import '../../styles/variables';
+.bookmark {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px !important;
+    border-radius: 50%;
+    outline: none;
+    border: none;
+    z-index: 3;
+    background-color: rgb(16, 20, 30, 0.5);
+    @include display;
+    cursor: pointer;
+    transition: 0.3s all;
+    @media(max-width:767.98px){
+      top: 8px;
+      right: 8px;
+    }
+    &:hover {
+      background-color: #fff;
+    }
+    &:hover svg path {
+      stroke: $bg;
+    }
+  }
+  .bookmarked svg path{
+    fill: #fff;
+  }
+.trendingBookmark{
+    right: 24px;
+  }

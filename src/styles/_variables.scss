@@ -1,0 +1,53 @@
+$bg: rgb(16, 20, 30);
+$bg-secondary:#161d2f;
+$dusk-blue:#5a698f;
+$peach:rgb(252, 71, 71);
+$text:#fff;
+
+// mixins
+
+@mixin title {
+ @include hL;
+ color: $text;
+ @media(max-width:767.98px){
+    font-size: 20px;
+    letter-spacing: -0.31;
+ }
+}
+@mixin background{
+    background-repeat:no-repeat;
+    background-size:cover;
+    background-position:center;
+
+}
+@mixin display{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+@mixin hL{
+    font-size: 32px;
+    font-weight: 300;
+}
+@mixin hM{
+    font-size: 24px;
+    font-weight: 300;
+}
+@mixin hS{
+    font-size: 24px;
+    font-weight: 500;
+}
+@mixin hXS{
+    font-size: 18px;
+    font-weight: 500;
+}
+@mixin bM{
+    font-size: 15px;
+    font-weight: 300;
+}
+@mixin bS{
+    font-size: 13px;
+    font-weight: 300;
+}
+
