@@ -1,7 +1,4 @@
 import {Movie} from '../interfaces/Movie';
-// import data from '../data/data.json';
-
-// const mediaData: movie[] = data as movie[];
 
 export const filterTrending=(mediaData:Movie[])=>{
     return mediaData.filter((item: Movie) => item.thumbnail.trending)

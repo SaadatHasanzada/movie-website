@@ -1,38 +1,32 @@
-@import '../../styles/variables';
+@import "../../styles/variables";
 .movieCard {
-    @include background;
-    width: 470px;
-    height: 230px;
-    border-radius: 8px;
-    position: relative;
-    display: flex;
-    align-items: flex-end;
-    overflow: hidden;
-    cursor: pointer;
-    flex-shrink: 0;
-    @media(max-width:767.98px){
-      width: 240px;
-      height: 140px;
-    }
-  
-    &:hover:after{
-     opacity: 1;
-    }
-    &::after{
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgb(0, 0, 0,.5);
-        opacity: 0;
-        transition: .3s all ease;
-
-    }
-   
-   
-    
-   
-  
+  @include background;
+  width: 470px;
+  height: 230px;
+  border-radius: 8px;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  cursor: pointer;
+  flex-shrink: 0;
+  @media (max-width: 767.98px) {
+    width: 240px;
+    height: 140px;
   }
+
+  &:hover:after {
+    opacity: 1;
+  }
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgb(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: 0.3s all ease;
+  }
+}

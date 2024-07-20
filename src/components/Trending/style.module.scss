@@ -1,14 +1,13 @@
 @import "../../styles/variables";
 #trending {
   margin-bottom: 40px;
-  @media(max-width:767.98px){
+  @media (max-width: 767.98px) {
     margin-bottom: 24px;
   }
   .title {
     @include title;
     margin-bottom: 25px;
-    @media(max-width:767.98px){
-      
+    @media (max-width: 767.98px) {
       margin-bottom: 16px;
     }
   }
@@ -16,18 +15,18 @@
     display: flex;
     flex-wrap: nowrap;
     gap: 40px;
-overflow-x: scroll;  
-padding-right: 36px;
-@media(max-width:1024px){
-  padding-right: 24px;
-}
-@media(max-width:767.98px){
-  gap: 16px;
-  padding-right: 16px;
-}
+    overflow-x: scroll;
+    padding-right: 36px;
+    @media (max-width: 1024px) {
+      padding-right: 24px;
+    }
+    @media (max-width: 767.98px) {
+      gap: 16px;
+      padding-right: 16px;
+    }
 
-&::-webkit-scrollbar{
-  display: none;
-}
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 }
