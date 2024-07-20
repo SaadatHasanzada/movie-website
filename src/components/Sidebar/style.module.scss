@@ -1,114 +1,105 @@
-@import '../../styles/_variables.scss';
+@import "../../styles/_variables.scss";
 
-.sidebar{
+.sidebar {
+  display: flex;
+  height: calc(100vh - 64px);
+  background-color: $bg-secondary;
+  width: 96px;
+  border-radius: 20px;
+  flex-direction: column;
+  padding: 32px 16px;
+  align-items: center;
+  position: fixed;
+  left: 32px;
+  top: 32px;
+  @media (max-width: 1024px) {
+    width: calc(100% - 48px);
+    height: 72px;
+    margin-top: 24px;
+    margin-left: 24px;
+    flex-direction: unset;
+    padding: 20px 16px 20px 24px;
+    border-radius: 10px;
+    justify-content: space-between;
+    position: unset;
+  }
+  @media (max-width: 767.98px) {
+    width: 100%;
+    height: 56px;
+    margin-top: 0px;
+    margin-left: 0px;
+    padding: 16px;
+    border-radius: unset;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+  }
+
+  .logo {
+    margin-bottom: 75px;
     display: flex;
-    height: calc(100vh - 64px);
-    background-color:$bg-secondary;
-    width: 96px;
-    border-radius: 20px;  
-    flex-direction: column; 
-    padding: 32px 16px;
-    align-items: center;
-    position: fixed;
-    left: 32px;
-    top: 32px;
-    @media(max-width:1024px){
-        width: calc(100% - 48px);
-        height: 72px;
-        margin-top: 24px;
-        margin-left: 24px;
-        flex-direction: unset;
-        padding:20px 16px 20px 24px;
-        border-radius: 10px;
-        justify-content: space-between;
-        position: unset;
-
+    @media (max-width: 1024px) {
+      margin-bottom: 0;
     }
-    @media(max-width:767.98px){
-        width: 100%;
-        height: 56px;
-        margin-top: 0px;
-        margin-left: 0px;
-        padding:16px;
-        border-radius: unset;
-
+    @media (max-width: 767.98px) {
+      width: 25px;
+      height: 20px;
     }
-
-    .logo{
-        margin-bottom: 75px;
-        display: flex;
-        @media(max-width:1024px){
-           margin-bottom: 0;
-    
-        }
-        @media(max-width:767.98px){
-            width:25px;
-            height: 20px;
-        }
+  }
+  .navButtons {
+    margin-bottom: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    @media (max-width: 1024px) {
+      flex-direction: unset;
+      gap: 32px;
+      margin-bottom: unset;
     }
-    .navButtons{
-        margin-bottom: auto;
-        display: flex;
-        flex-direction: column;
-        gap: 40px;
-        @media(max-width:1024px){
-          flex-direction: unset;
-          gap: 32px;
-          margin-bottom: unset;
-          
-    
-        }
-        @media(max-width:767.98px){
-          max-width: 134px;
-          justify-content: space-between;
-          width: 100%;
-          gap: unset;
-        }
-        li,li svg{
-            width: 20px;
-            height: 20px;
-            @media(max-width:767.98px){
-                height: 16px;
-                width: 16px;
-               
-            }
-        }
-        li{
-            a:global.active svg path{
-                fill: #fff;
-                }
-                a:global:not(.active):hover svg path{
-                    fill: $peach;
-                }
-                 svg path{
-                    transition: all .3s;
-                }
-       
-        
-        }
-
-          
+    @media (max-width: 767.98px) {
+      max-width: 134px;
+      justify-content: space-between;
+      width: 100%;
+      gap: unset;
     }
-    .profile{
-        width: 40px;
-        height: 40px;
-        border: 1px solid #fff;
-        border-radius: 50%;
-        cursor: pointer;
-@media(max-width:1024px){
-    width: 32px;
-    height: 32px;
+    li,
+    li svg {
+      width: 20px;
+      height: 20px;
+      @media (max-width: 767.98px) {
+        height: 16px;
+        width: 16px;
+      }
+    }
+    li {
+      a:global.active svg path {
+        fill: #fff;
+      }
+      a:global:not(.active):hover svg path {
+        fill: $peach;
+      }
+      svg path {
+        transition: all 0.3s;
+      }
+    }
+  }
+  .profile {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    cursor: pointer;
+    @media (max-width: 1024px) {
+      width: 32px;
+      height: 32px;
+    }
+    @media (max-width: 767.98px) {
+      width: 24px;
+      height: 24px;
+    }
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
 }
-@media(max-width:767.98px){
-    width: 24px;
-    height: 24px;
-}
-        img{
-            width: 100%;
-            height: 100%;
-            }
-       
-    }
-    
-}
-
