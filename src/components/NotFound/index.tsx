@@ -13,8 +13,8 @@ const NotFound: React.FC = () => {
         </p>
       </div>
       <p className={style.text}>Page Not Found</p>
-      <Link to="/">
-        <button>Return Home</button>
+      <Link to="/" aria-label="Navigate to Home page">
+        <button title="Return Home">Return Home</button>
       </Link>
     </div>
   );
