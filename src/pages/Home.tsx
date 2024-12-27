@@ -1,25 +1,25 @@
-import React from 'react'
-import Trending from '../components/Trending'
-import MediaList from '../components/MediaList';
-import { filterRecommended,filterSearchResults } from '../utils/dataFilters';
-import { Movie } from '../interfaces/Movie';
-import { useSearchContext } from '../contexts/SearchContext';
+import { filterRecommended, filterSearchResults } from "../utils/dataFilters";
 
+import AuthScreen from "../features/auth/components/AuthScreen";
+import MediaList from "../components/MediaList";
+import { Movie } from "../interfaces/Movie";
+import React from "react";
+import Trending from "../components/Trending";
+import { useSearchContext } from "../contexts/SearchContext";
 
-
-const Home:React.FC = () => {
-const {searchQuery}=useSearchContext();
+const Home: React.FC = () => {
+  const { searchQuery } = useSearchContext();
   const filterFunction = searchQuery
-  ? (movies: Movie[]) => filterSearchResults(movies, searchQuery)
-  : filterRecommended;
-  
+    ? (movies: Movie[]) => filterSearchResults(movies, searchQuery)
+    : filterRecommended;
+
   return (
     <>
-    {!searchQuery &&  <Trending />}
-    <MediaList FilterFunction={filterFunction} id='recommended' heading='Recommended for you'/>
+      <AuthScreen />
+      {/* {!searchQuery &&  <Trending />}
+    <MediaList FilterFunction={filterFunction} id='recommended' heading='Recommended for you'/> */}
     </>
-   
-  )
-} 
+  );
+};
 
-export default Home
+export default Home;

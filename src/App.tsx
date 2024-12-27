@@ -1,19 +1,20 @@
-// import './App.css'
-import MainLayout from "./layouts/MainLayout";
-import Home from "./pages/Home";
-import Movies from "./pages/Movies";
-import Series from "./pages/Series";
+import "./App.scss";
+
+import {
+  Route,
+  BrowserRouter as Router,
+  Routes,
+  useLocation
+} from "react-router-dom";
+
 import Bookmarks from "./pages/Bookmarks";
 import Error from "./pages/Error";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  useLocation,
-} from "react-router-dom";
+import Home from "./pages/Home";
+import MainLayout from "./layouts/MainLayout";
+import Movies from "./pages/Movies";
+import Series from "./pages/Series";
 import { useEffect } from "react";
 import { useSearchContext } from "./contexts/SearchContext";
-import "./App.scss";
 
 const AppContent: React.FC = () => {
   const location = useLocation();
