@@ -15,7 +15,7 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <AuthScreen />
+      {/* <AuthScreen /> */}
       {/* {!searchQuery &&  <Trending />}
     <MediaList FilterFunction={filterFunction} id='recommended' heading='Recommended for you'/> */}
     </>

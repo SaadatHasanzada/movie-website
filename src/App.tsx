@@ -1,4 +1,4 @@
-import "./App.scss";
+import "../css/index.css";
 
 import {
   Route,
@@ -10,6 +10,7 @@ import {
 import Bookmarks from "./pages/Bookmarks";
 import Error from "./pages/Error";
 import Home from "./pages/Home";
+import Landing from "./pages/Landing";
 import MainLayout from "./layouts/MainLayout";
 import Movies from "./pages/Movies";
 import Series from "./pages/Series";
@@ -26,14 +27,7 @@ const AppContent: React.FC = () => {
 
   return (
     <Routes>
-      <Route
-        path="/"
-        element={
-          <MainLayout>
-            <Home />
-          </MainLayout>
-        }
-      />
+      <Route path="/" element={<Landing />} />
       <Route
         path="/movies"
         element={
