@@ -7,86 +7,90 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Link } from "react-router-dom";
 import Logo from "@/assets/logo.svg";
+import { validateEmail } from "@/utils/validation";
 
 const Hero = () => {
+  //breakpoints
+  // min-width:1280px -128px
+  //min-width: 960px -64px
+  // min-width:600 - 32px
+  // 24px
+
   const [email, setEmail] = useState("");
-  const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const [errorMessage, setErrorMessage] = useState<null | string>(null);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
-  //improve code quality and performance
-  // create seperate components if it is needed
-  // create additional overlay for the top of header
-  // make this part responsive
-
-  //Add to github at the end of the day !important
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-    validateEmail();
-    if (validateEmail()) {
-      setErrorMessage(null);
-    }
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newEmail = e.target.value;
+    setEmail(newEmail);
+    const { isValid, errorMessage } = validateEmail(newEmail);
+    setErrorMessage(errorMessage);
+    setIsSuccess(isValid);
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (validateEmail()) {
-      console.log("Form submitted successfully!");
+    const { isValid } = validateEmail(email);
+    if (isValid) {
+      // Handle successful submission
+      setIsSuccess(false);
+      setEmail("");
+      // Add your API call or further processing here
     }
   };
 
-  const validateEmail = () => {
-    if (email.length === 0) {
-      setErrorMessage("Email is required.");
-      return false;
-    }
-    if (!emailPattern.test(email)) {
-      setErrorMessage("Please enter a valid email address.");
-      return false;
-    }
-    console.log(errorMessage);
-    return true;
-  };
   return (
     <div
       className="w-full max-w-[110rem] bg-cover bg-center h-screen relative "
       style={{ backgroundImage: `url(${HeroImg})` }}
     >
-      <header className="flex items-center justify-between px-32 h-20 relative z-[3]">
+      <header
+        className="flex items-center justify-between px-6 sm:px-8 md:px-16 xl:px-32 h-20 relative z-[3]"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(0, 0, 0, 0.8000) 0.000%, rgba(0, 0, 0, 0.7889) 8.333%, rgba(0, 0, 0, 0.7556) 16.67%, rgba(0, 0, 0, 0.7000) 25.00%, rgba(0, 0, 0, 0.6222) 33.33%, rgba(0, 0, 0, 0.5222) 41.67%, rgba(0, 0, 0, 0.4000) 50.00%, rgba(0, 0, 0, 0.2778) 58.33%, rgba(0, 0, 0, 0.1778) 66.67%, rgba(0, 0, 0, 0.1000) 75.00%, rgba(0, 0, 0, 0.04444) 83.33%, rgba(0, 0, 0, 0.01111) 91.67%, rgba(0, 0, 0, 0.000) 100.0%)"
+        }}
+      >
         <Link to="/">
-          <img src={Logo} alt="Movie Logo" width="50px" height="50px" />
+          <img
+            src={Logo}
+            alt="Movie Logo"
+            className="w-10 h-8 ms:w-12 ms:h-10"
+          />
         </Link>
         <Button size="lg" className="bg-red-700 hover:bg-red-800 text-lg">
           Sign in
         </Button>
       </header>
-      <div className="flex flex-col items-center justify-center h-[calc(100%-80px)] relative z-[3] max-w-[36.875rem] mx-auto pb-5">
-        <h1 className="text-6xl font-bold text-white text-center mb-10">
+      <div className="px-8 flex flex-col items-center justify-center h-[calc(100%-80px)] relative z-[3] sm:max-w-[33rem]  md:max-w-[35.75rem] xl:max-w-[40.75rem] mx-auto pb-24 lg:pb-5">
+        <h1 className="text-[32px]  ms:text-[46px] xl:text-[56px] leading-tight	font-bold text-white text-center mb-10">
           Unlimited movies, TV shows, and more
         </h1>
-        <form className=" w-full" onSubmit={(e) => handleSubmit(e)}>
+        <form className=" w-full" onSubmit={handleSubmit}>
           <h3 className="mb-4 text-lg text-center">
             Ready to explore? Enter your email to create your account.
           </h3>
-          <div className="flex items-center justify-center gap-2 w-full ">
-            <div className="relative flex items-end flex-[2] min-h-14 border-[#808080b3] rounded-md border  bg-[#161616]/70">
+          <div className="relative flex flex-col  sm:flex-row sm:gap-2  justify-center  w-full ">
+            <div
+              className={`w-full flex-[2] relative flex items-end min-h-12  sm:min-h-14  rounded-md border border-[#808080b3] bg-[#161616]/70 ${
+                errorMessage
+                  ? "border-error"
+                  : isSuccess
+                  ? "border-success"
+                  : ""
+              }`}
+            >
               <Input
-                className=" w-full peer border-none focus-visible:ring-0 shadow-none pl-4 !text-lg  "
+                className=" w-full peer border-none focus-visible:ring-0 shadow-none pl-4 text-base ms:!text-lg  "
                 type="email"
                 id="email"
                 placeholder=" "
                 value={email}
                 minLength={5}
                 maxLength={50}
-                onChange={(e) => handleChange(e)}
+                onChange={handleEmailChange}
                 required
               />
-              {errorMessage && (
-                <div className="flex items-center gap-1  absolute -bottom-8 left-0">
-                  <CircleX size={20} className="text-red-700" />
-                  <span className="text-red-700 text-s">{errorMessage}</span>
-                </div>
-              )}
 
               <Label
                 htmlFor="email"
@@ -100,9 +104,21 @@ const Hero = () => {
               <span></span>
             </div>
 
-            <Button className="min-h-14 flex-1 text-[22px] bg-red-700 hover:bg-red-800">
+            {errorMessage && (
+              <div className="flex items-center  gap-1 mt-[4px]  sm:absolute -bottom-8 left-0">
+                <CircleX className="text-red-700 w-4 h-4 sm:w-5 sm:h-5" />
+                <span className="text-red-700 text-xs ms:text-sm">
+                  {errorMessage}
+                </span>
+              </div>
+            )}
+
+            <Button className="w-full mt-4 sm:mt-0 min-h-12  sm:min-h-14 flex-1 text-[18px] ms:text-[22px] bg-red-700 hover:bg-red-800">
               Get Started
-              <ArrowRight size={24} className="ml-1 !w-[24px] !h-[24px]" />
+              <ArrowRight
+                size={24}
+                className="ml-1 !w-5 !h-5 ms:!w-[24px] ms:!h-[24px]"
+              />
             </Button>
           </div>
         </form>
