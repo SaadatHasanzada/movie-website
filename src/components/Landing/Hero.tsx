@@ -7,12 +7,14 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Link } from "react-router-dom";
 import Logo from "@/assets/logo.svg";
+import { useNavigate } from "react-router-dom";
 import { validateEmail } from "@/utils/validation";
 
 const Hero = () => {
   const [email, setEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState<null | string>(null);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newEmail = e.target.value;
@@ -26,10 +28,9 @@ const Hero = () => {
     e.preventDefault();
     const { isValid } = validateEmail(email);
     if (isValid) {
-      // Handle successful submission
       setIsSuccess(false);
       setEmail("");
-      // Add your API call or further processing here
+      navigate("/registration", { state: { email } });
     }
   };
 
@@ -46,7 +47,11 @@ const Hero = () => {
             className="w-10 h-8 ms:w-12 ms:h-10"
           />
         </Link>
-        <Button size="lg" className="bg-red-700 hover:bg-red-800 text-lg">
+        <Button
+          onClick={() => navigate("/login")}
+          size="lg"
+          className="bg-peach hover:bg-peach_hover text-lg"
+        >
           Sign in
         </Button>
       </header>
@@ -93,14 +98,14 @@ const Hero = () => {
 
             {errorMessage && (
               <div className="flex items-center  gap-1 mt-[4px]  sm:absolute -bottom-8 left-0">
-                <CircleX className="text-red-700 w-4 h-4 sm:w-5 sm:h-5" />
-                <span className="text-red-700 text-xs ms:text-sm">
+                <CircleX className="text-peach w-4 h-4 sm:w-5 sm:h-5" />
+                <span className="text-peach text-xs ms:text-base">
                   {errorMessage}
                 </span>
               </div>
             )}
 
-            <Button className="w-full mt-4 sm:mt-0 min-h-12  sm:min-h-14 flex-1 text-[18px] ms:text-[22px] bg-red-700 hover:bg-red-800">
+            <Button className="w-full mt-4 sm:mt-0 min-h-12  sm:min-h-14 flex-1 text-[18px] ms:text-[22px] bg-peach hover:bg-peach_hover">
               Get Started
               <ArrowRight
                 size={24}
@@ -114,7 +119,7 @@ const Hero = () => {
         className="h-full w-full absolute top-0 left-0 z-[2]"
         style={{
           backgroundImage:
-            "linear-gradient(180deg, rgba(22,29,47,0.7231267507002801) 97%, rgba(22,29,47,0.9023984593837535) 100%, rgba(16,20,30,0.6811099439775911) 100%)"
+            "linear-gradient(180deg, rgba(16,20,30,0.835171568627451) 100%, rgba(22,29,47,0.9023984593837535) 100%, rgba(22,29,47,0.76234243697479) 100%)"
         }}
       />
     </div>
