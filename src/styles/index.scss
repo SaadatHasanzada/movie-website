@@ -7,8 +7,6 @@
 
 @layer base {
   :root {
-    --color-success: 120 40% 54%; /* HSL for #4BB543 */
-    --color-error: 0 100% 40%; /* HSL for #cc0000 */
     --radius: 0.5rem;
   }
 }
@@ -99,7 +97,7 @@ input:-webkit-autofill:active {
   background-color: transparent !important;
 }
 .border-error {
-  border: 1px solid $border-error;
+  border: 1px solid $peach;
 }
 .border-success {
   border: 1px solid $border-success;
