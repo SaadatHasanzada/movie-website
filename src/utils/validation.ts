@@ -29,3 +29,13 @@ export const validatePassword = (password: string): ValidationResult => {
   }
   return { isValid: true, errorMessage: null };
 };
+
+export const validatePasswordMatch = (
+  password: string,
+  confirmPassword: string
+): ValidationResult => {
+  if (password !== confirmPassword) {
+    return { isValid: false, errorMessage: ERROR_MESSAGES.PASSWORD_MISMATCH };
+  }
+  return { isValid: true, errorMessage: null };
+};
