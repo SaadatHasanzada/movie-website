@@ -5,5 +5,8 @@ export const PATTERNS = {
 
 export const ERROR_MESSAGES = {
   EMAIL_INVALID: "Please enter a valid email address",
-  EMAIL_REQUIRED: "Email is required"
+  EMAIL_REQUIRED: "Email is required",
+  PASSWORD_REQUIRED: "Password is required",
+  PASSWORD_INVALID:
+    "Password must be at least 8 characters long and include both letters and numbers"
 } as const;
