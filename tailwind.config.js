@@ -17,11 +17,13 @@ export default {
         sm: "calc(var(--radius) - 4px)"
       },
       colors: {
+        peach: "hsl(0, 97%, 63%)",
+        peach_hover: "hsl(0, 74%, 55%)",
         dark_blue: "hsl(223, 30%, 9%)",
         semi_dark_blue: "hsl(223, 36%, 13%)",
         dusk_blue: "hsl(223, 23%, 46%)",
-        success: "hsl(var(--color-success))",
-        error: "hsl(var(--color-error))",
+        success: "hsl(120 40% 54%)",
+        error: "hsl(0, 97%, 63%)",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
