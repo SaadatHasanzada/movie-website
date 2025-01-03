@@ -1,5 +1,6 @@
 import { CircleX } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { useState } from "react";
 
 interface FormInputProps {
   type: "email" | "password";
@@ -8,6 +9,7 @@ interface FormInputProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   error?: string | null;
   autoComplete: string;
+  name: string;
 }
 
 export const FormInput = ({
@@ -16,27 +18,36 @@ export const FormInput = ({
   value,
   onChange,
   error,
-  autoComplete
-}: FormInputProps) => (
-  <div>
-    <Input
-      type={type}
-      placeholder={placeholder}
-      onChange={onChange}
-      value={value}
-      autoComplete={autoComplete}
-      required
-      style={{
-        borderColor: error ? "#cc0000" : "hsl(223, 23%, 46%)"
-      }}
-      className="placeholder:text-white/50 border-0 border-b-[1px] focus-visible:ring-0 shadow-none body-medium rounded-none p-4 min-h-10"
-    />
-    {error && (
-      <div className="text-red-700 text-xs mt-2 flex items-start  gap-1">
-        {" "}
-        <CircleX className="text-red-700 w-4 h-4 " />
-        <span className="flex-1"> {error}</span>
-      </div>
-    )}
-  </div>
-);
+  autoComplete,
+  name
+}: FormInputProps) => {
+  const [isFocused, setIsFocused] = useState(false);
+
+  return (
+    <div>
+      <Input
+        name={name}
+        type={type}
+        placeholder={placeholder}
+        onChange={onChange}
+        value={value}
+        autoComplete={autoComplete}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+        required
+        style={{
+          borderColor:
+            error && !isFocused ? "hsl(0, 97%, 63%)" : "hsl(223, 23%, 46%)"
+        }}
+        className="focus:!border-b-white  placeholder:text-white/50 border-0 border-b-[1px] focus-visible:ring-0 shadow-none  rounded-none p-4 min-h-10"
+      />
+      {error && !isFocused && (
+        <div className="text-peach text-xs sm:text-[13px] mt-2 flex items-start   gap-1">
+          {" "}
+          <CircleX className="text-peach w-4 h-4  " />
+          <span className="flex-1"> {error}</span>
+        </div>
+      )}
+    </div>
+  );
+};
