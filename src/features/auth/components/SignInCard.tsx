@@ -1,3 +1,4 @@
+import { FormData, FormErrors } from "../types";
 import React, { FormEvent, useState } from "react";
 import { validateEmail, validatePassword } from "@/utils/validation";
 
@@ -5,13 +6,8 @@ import { Button } from "@/components/ui/button";
 import { FormInput } from "./FormInput";
 import { Link } from "react-router-dom";
 
-interface FormErrors {
-  email?: string | null;
-  password?: string | null;
-}
-
 const SignInCard = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     email: "",
     password: ""
   });
@@ -31,7 +27,6 @@ const SignInCard = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { email, password } = formData;
-
     const emailValidation = validateEmail(email);
     const passwordValidation = validatePassword(password);
 
@@ -49,10 +44,11 @@ const SignInCard = () => {
   };
 
   return (
-    <div className="p-6 pb-8 bg-[#161D2F] rounded-[20px] w-full">
-      <h1 className="heading-large mb-6">Sign in</h1>
+    <div className="p-6 pb-8  bg-[#161D2F] rounded-[20px] w-full sm:max-w-[400px] sm:p-8">
+      <h1 className="heading-large mb-6">Sign In</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-6 ">
         <FormInput
+          name="email"
           type="email"
           placeholder="Email address"
           value={formData.email}
@@ -61,6 +57,7 @@ const SignInCard = () => {
           autoComplete="email"
         />
         <FormInput
+          name="password"
           type="password"
           placeholder="Password"
           value={formData.password}
@@ -70,7 +67,7 @@ const SignInCard = () => {
         />
 
         <Button
-          className="mt-4 min-h-12 bg-red-700 hover:bg-white hover:text-semi_dark_blue text-base"
+          className="mt-4 min-h-12 bg-peach hover:bg-white hover:text-semi_dark_blue text-base"
           type="submit"
         >
           Sign In
@@ -78,7 +75,7 @@ const SignInCard = () => {
       </form>
       <div className="mt-6 text-white body-medium text-center  ">
         Don’t have an account?{" "}
-        <Link className="text-red-700" to="/">
+        <Link to="/registration" className="text-peach cursor-pointer">
           {" "}
           Sign Up
         </Link>
