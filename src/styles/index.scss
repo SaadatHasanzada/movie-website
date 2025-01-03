@@ -12,6 +12,44 @@
     --radius: 0.5rem;
   }
 }
+@layer components {
+  /* Typography classes */
+  .title {
+    @apply text-[32px] font-light text-white md:text-[20px] md:tracking-[-0.31px];
+  }
+  .heading-large {
+    @apply text-[32px] font-light;
+  }
+
+  .heading-medium {
+    @apply text-2xl font-light;
+  }
+
+  .heading-small {
+    @apply text-2xl font-medium;
+  }
+
+  .heading-xs {
+    @apply text-lg font-medium;
+  }
+
+  .body-medium {
+    @apply text-[16px] font-light;
+  }
+
+  .body-small {
+    @apply text-[13px] font-light;
+  }
+
+  /* Utility classes */
+  .background-cover {
+    @apply bg-no-repeat bg-cover bg-center;
+  }
+
+  .display-center {
+    @apply flex justify-center items-center h-screen;
+  }
+}
 
 *,
 *::before,

@@ -10,12 +10,6 @@ import Logo from "@/assets/logo.svg";
 import { validateEmail } from "@/utils/validation";
 
 const Hero = () => {
-  //breakpoints
-  // min-width:1280px -128px
-  //min-width: 960px -64px
-  // min-width:600 - 32px
-  // 24px
-
   const [email, setEmail] = useState("");
   const [errorMessage, setErrorMessage] = useState<null | string>(null);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
@@ -44,13 +38,7 @@ const Hero = () => {
       className="w-full max-w-[110rem] bg-cover bg-center h-screen relative "
       style={{ backgroundImage: `url(${HeroImg})` }}
     >
-      <header
-        className="flex items-center justify-between px-6 sm:px-8 md:px-16 xl:px-32 h-20 relative z-[3]"
-        style={{
-          background:
-            "linear-gradient(180deg, rgba(0, 0, 0, 0.8000) 0.000%, rgba(0, 0, 0, 0.7889) 8.333%, rgba(0, 0, 0, 0.7556) 16.67%, rgba(0, 0, 0, 0.7000) 25.00%, rgba(0, 0, 0, 0.6222) 33.33%, rgba(0, 0, 0, 0.5222) 41.67%, rgba(0, 0, 0, 0.4000) 50.00%, rgba(0, 0, 0, 0.2778) 58.33%, rgba(0, 0, 0, 0.1778) 66.67%, rgba(0, 0, 0, 0.1000) 75.00%, rgba(0, 0, 0, 0.04444) 83.33%, rgba(0, 0, 0, 0.01111) 91.67%, rgba(0, 0, 0, 0.000) 100.0%)"
-        }}
-      >
+      <header className="flex items-center justify-between px-6 sm:px-8 md:px-16 xl:px-32 h-20 relative z-[3]">
         <Link to="/">
           <img
             src={Logo}
@@ -101,7 +89,6 @@ const Hero = () => {
               >
                 Email address
               </Label>
-              <span></span>
             </div>
 
             {errorMessage && (
@@ -127,7 +114,7 @@ const Hero = () => {
         className="h-full w-full absolute top-0 left-0 z-[2]"
         style={{
           backgroundImage:
-            "linear-gradient(7deg, rgba(0, 0, 0, 0.8500) 10.00%, rgba(0, 0, 0, 0.8465) 17.25%, rgba(0, 0, 0, 0.8361) 24.50%, rgba(0, 0, 0, 0.8187) 31.75%, rgba(0, 0, 0, 0.7944) 39.00%, rgba(0, 0, 0, 0.7632) 46.25%, rgba(0, 0, 0, 0.7250) 53.50%, rgba(0, 0, 0, 0.6868) 60.75%, rgba(0, 0, 0, 0.6556) 68.00%, rgba(0, 0, 0, 0.6312) 75.25%, rgba(0, 0, 0, 0.6139) 82.50%, rgba(0, 0, 0, 0.6035) 89.75%, rgba(0, 0, 0, 0.6000) 97.00%)"
+            "linear-gradient(180deg, rgba(22,29,47,0.7231267507002801) 97%, rgba(22,29,47,0.9023984593837535) 100%, rgba(16,20,30,0.6811099439775911) 100%)"
         }}
       />
     </div>

@@ -1,6 +1,5 @@
 import { filterRecommended, filterSearchResults } from "../utils/dataFilters";
 
-import AuthScreen from "../features/auth/components/AuthScreen";
 import MediaList from "../components/MediaList";
 import { Movie } from "../interfaces/Movie";
 import React from "react";
@@ -15,7 +14,6 @@ const Home: React.FC = () => {
 
   return (
     <>
-      {/* <AuthScreen /> */}
       {/* {!searchQuery &&  <Trending />}
     <MediaList FilterFunction={filterFunction} id='recommended' heading='Recommended for you'/> */}
     </>

@@ -7,6 +7,7 @@ import {
   useLocation
 } from "react-router-dom";
 
+import AuthScreen from "./pages/AuthScreen";
 import Bookmarks from "./pages/Bookmarks";
 import Error from "./pages/Error";
 import Home from "./pages/Home";
@@ -28,6 +29,8 @@ const AppContent: React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<Landing />} />
+      <Route path="/auth" element={<AuthScreen />} />
+
       <Route
         path="/movies"
         element={

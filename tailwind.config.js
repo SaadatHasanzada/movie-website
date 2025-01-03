@@ -17,6 +17,9 @@ export default {
         sm: "calc(var(--radius) - 4px)"
       },
       colors: {
+        dark_blue: "hsl(223, 30%, 9%)",
+        semi_dark_blue: "hsl(223, 36%, 13%)",
+        dusk_blue: "hsl(223, 23%, 46%)",
         success: "hsl(var(--color-success))",
         error: "hsl(var(--color-error))",
         background: "hsl(var(--background))",

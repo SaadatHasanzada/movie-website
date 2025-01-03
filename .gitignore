@@ -26,3 +26,4 @@ dist-ssr
 
 # Api key
 .env
+.codegpt
