@@ -1,19 +1,24 @@
 import * as motion from "motion/react-client";
 
+import { CircleX, Loader2 } from "lucide-react";
 import { FormData, FormErrors } from "../types";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React, { FormEvent, useState } from "react";
 import { validateEmail, validatePassword } from "@/utils/validation";
 
 import { Button } from "@/components/ui/button";
+import { ERROR_MESSAGES } from "@/constants/validation";
 import { FormInput } from "./FormInput";
+import { authService } from "../services/supabase";
 
 const SignInCard = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState<FormData>({
     email: "",
     password: ""
   });
   const [errors, setErrors] = useState<FormErrors>({});
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange =
     (field: keyof typeof formData) =>
@@ -26,21 +31,34 @@ const SignInCard = () => {
       setErrors((prev) => ({ ...prev, [field]: errorMessage }));
     };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { email, password } = formData;
     const emailValidation = validateEmail(email);
     const passwordValidation = validatePassword(password);
 
     if (emailValidation.isValid && passwordValidation.isValid) {
+      setLoading(true);
+
       try {
-        // Add your API call here
-        console.log("Successfully submitted");
+        await authService.signIn({
+          email,
+          password
+        });
         setFormData({ email: "", password: "" });
         setErrors({});
+        navigate("/home");
       } catch (error) {
-        console.error("Submission error:", error);
-        // Handle error appropriately
+        if (error instanceof Error) {
+          setErrors((prev) => ({
+            ...prev,
+            network: ERROR_MESSAGES.LOGIN_FAILURE
+          }));
+        } else {
+          console.error(error);
+        }
+      } finally {
+        setLoading(false);
       }
     }
   };
@@ -77,11 +95,23 @@ const SignInCard = () => {
           autoComplete="current-password"
         />
 
+        {errors.network && (
+          <div className="text-peach text-xs sm:text-[15px] mt-1 flex items-center   gap-1">
+            {" "}
+            <CircleX className="text-peach w-4 h-4  " />
+            <span className="flex-1"> {errors.network}</span>
+          </div>
+        )}
+
         <Button
           className="mt-4 min-h-12 bg-peach hover:bg-white hover:text-semi_dark_blue text-base"
           type="submit"
         >
-          Sign In
+          {loading ? (
+            <Loader2 className="animate-spin ms:!w-6 ms:!h-6" />
+          ) : (
+            "Sign In"
+          )}
         </Button>
       </form>
       <div className="mt-6 text-white body-medium text-center  ">
