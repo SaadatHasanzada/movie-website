@@ -50,6 +50,8 @@ const AppContent: React.FC = () => {
       ) : (
         <Routes>
           <Route path="/" element={<Landing />} />
+          <Route path="/home" element={<Home />} />
+
           <Route
             path="/movies"
             element={
