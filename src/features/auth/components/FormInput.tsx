@@ -1,3 +1,5 @@
+import { Eye, EyeOff } from "lucide-react";
+
 import { CircleX } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
@@ -22,12 +24,16 @@ export const FormInput = ({
   name
 }: FormInputProps) => {
   const [isFocused, setIsFocused] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   return (
-    <div>
+    <div className="relative">
       <Input
         name={name}
-        type={type}
+        type={type === "password" && showPassword ? "text" : type}
         placeholder={placeholder}
         onChange={onChange}
         value={value}
@@ -41,6 +47,17 @@ export const FormInput = ({
         }}
         className="focus:!border-b-white  placeholder:text-white/50 border-0 border-b-[1px] focus-visible:ring-0 shadow-none  rounded-none p-4 min-h-10"
       />
+
+      {type === "password" && (
+        <button
+          type="button"
+          onClick={togglePassword}
+          className="absolute right-3 top-5 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none"
+          aria-label={showPassword ? "Hide password" : "Show password"}
+        >
+          {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+        </button>
+      )}
       {error && !isFocused && (
         <div className="text-peach text-xs sm:text-[13px] mt-2 flex items-start   gap-1">
           {" "}
