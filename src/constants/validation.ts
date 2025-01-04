@@ -9,5 +9,7 @@ export const ERROR_MESSAGES = {
   PASSWORD_REQUIRED: "Password is required",
   PASSWORD_MISMATCH: "Passwords do not match",
   PASSWORD_INVALID:
-    "Password must be at least 8 characters long and include both letters and numbers"
+    "Password must be at least 8 characters long and include both letters and numbers",
+  USER_EXISTS: "User already registered",
+  NETWORK_ERROR: "Something went wrong"
 } as const;
