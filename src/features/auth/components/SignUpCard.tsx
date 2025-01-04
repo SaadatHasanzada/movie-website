@@ -16,13 +16,11 @@ import { FormInput } from "./FormInput";
 import { Loader2 } from "lucide-react";
 import { authService } from "..//services/supabase";
 
-// User already registered +
-// password seen+
-// box shadow for card +
-// add animation for login and signup+
-// login process
+// fix some error validation problems, there is so much repetition
 //protected route
+// research some auth methods like subscriptions
 // test account
+// structure some folders
 
 const SignUpCard = () => {
   const location = useLocation();
