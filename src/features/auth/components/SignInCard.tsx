@@ -1,10 +1,12 @@
+import * as motion from "motion/react-client";
+
 import { FormData, FormErrors } from "../types";
+import { Link, useLocation } from "react-router-dom";
 import React, { FormEvent, useState } from "react";
 import { validateEmail, validatePassword } from "@/utils/validation";
 
 import { Button } from "@/components/ui/button";
 import { FormInput } from "./FormInput";
-import { Link } from "react-router-dom";
 
 const SignInCard = () => {
   const [formData, setFormData] = useState<FormData>({
@@ -44,7 +46,16 @@ const SignInCard = () => {
   };
 
   return (
-    <div className="p-6 pb-8  bg-[#161D2F] rounded-[20px] w-full sm:max-w-[400px] sm:p-8">
+    <motion.div
+      initial={{ opacity: 0, scale: 0 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0 }}
+      transition={{
+        type: "tween",
+        duration: 0.4
+      }}
+      className="shadow-xl p-6 pb-8  bg-[#161D2F] rounded-[20px] w-full sm:max-w-[400px] sm:p-8"
+    >
       <h1 className="heading-large mb-6">Sign In</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-6 ">
         <FormInput
@@ -80,7 +91,7 @@ const SignInCard = () => {
           Sign Up
         </Link>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

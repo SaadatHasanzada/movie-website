@@ -7,6 +7,7 @@ import {
   useLocation
 } from "react-router-dom";
 
+import { AnimatePresence } from "motion/react";
 import Bookmarks from "./pages/Bookmarks";
 import Error from "./pages/Error";
 import Home from "./pages/Home";
@@ -19,6 +20,19 @@ import Series from "./pages/Series";
 import { useEffect } from "react";
 import { useSearchContext } from "./contexts/SearchContext";
 
+const AuthRoutes = () => {
+  const location = useLocation();
+
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/login" element={<Login />} />
+        <Route path="/registration" element={<Registration />} />
+      </Routes>
+    </AnimatePresence>
+  );
+};
+
 const AppContent: React.FC = () => {
   const location = useLocation();
   const { resetSearch } = useSearchContext();
@@ -27,38 +41,43 @@ const AppContent: React.FC = () => {
     resetSearch();
   }, [location]);
 
-  return (
-    <Routes>
-      <Route path="/" element={<Landing />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/registration" element={<Registration />} />
+  const isAuthRoute = ["/login", "/registration"].includes(location.pathname);
 
-      <Route
-        path="/movies"
-        element={
-          <MainLayout>
-            <Movies />
-          </MainLayout>
-        }
-      />
-      <Route
-        path="/series"
-        element={
-          <MainLayout>
-            <Series />
-          </MainLayout>
-        }
-      />
-      <Route
-        path="/bookmarks"
-        element={
-          <MainLayout>
-            <Bookmarks />
-          </MainLayout>
-        }
-      />
-      <Route path="*" element={<Error />} />
-    </Routes>
+  return (
+    <>
+      {isAuthRoute ? (
+        <AuthRoutes />
+      ) : (
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route
+            path="/movies"
+            element={
+              <MainLayout>
+                <Movies />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/series"
+            element={
+              <MainLayout>
+                <Series />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/bookmarks"
+            element={
+              <MainLayout>
+                <Bookmarks />
+              </MainLayout>
+            }
+          />
+          <Route path="*" element={<Error />} />
+        </Routes>
+      )}
+    </>
   );
 };
 

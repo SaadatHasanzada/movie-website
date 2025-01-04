@@ -1,3 +1,5 @@
+import * as motion from "motion/react-client";
+
 import { FormData, FormErrors } from "../types";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import React, { FormEvent, useState } from "react";
@@ -8,11 +10,16 @@ import {
 } from "@/utils/validation";
 
 import { Button } from "@/components/ui/button";
+import { CircleX } from "lucide-react";
+import { ERROR_MESSAGES } from "@/constants/validation";
 import { FormInput } from "./FormInput";
 import { Loader2 } from "lucide-react";
 import { authService } from "..//services/supabase";
 
-// User already registered
+// User already registered +
+// password seen+
+// box shadow for card +
+// add animation for login and signup+
 // login process
 //protected route
 // test account
@@ -70,11 +77,26 @@ const SignUpCard = () => {
           email,
           password
         });
+
         setFormData({ email: "", password: "", passwordConfirm: "" });
         setErrors({});
         navigate("/login");
       } catch (error) {
-        console.error("Submission error:", error);
+        if (
+          error instanceof Error &&
+          error.message.includes("already registered")
+        ) {
+          setErrors((prev) => ({
+            ...prev,
+            email: ERROR_MESSAGES.USER_EXISTS
+          }));
+        } else {
+          setErrors((prev) => ({
+            ...prev,
+            network: ERROR_MESSAGES.NETWORK_ERROR
+          }));
+          console.error("Submission error:", error);
+        }
       } finally {
         setLoading(false);
       }
@@ -82,7 +104,16 @@ const SignUpCard = () => {
   };
 
   return (
-    <div className="p-6 pb-8  bg-[#161D2F] rounded-[20px] w-full sm:max-w-[400px] sm:p-8">
+    <motion.div
+      initial={{ opacity: 0, scale: 0 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0 }}
+      transition={{
+        type: "tween",
+        duration: 0.4
+      }}
+      className="shadow-xl	 p-6 pb-8  bg-[#161D2F] rounded-[20px] w-full sm:max-w-[400px] sm:p-8"
+    >
       <h1 className="heading-large mb-6">Sign Up</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-6 ">
         <FormInput
@@ -112,7 +143,13 @@ const SignUpCard = () => {
           error={errors.passwordConfirm}
           autoComplete="new-password"
         />
-
+        {errors.network && (
+          <div className="text-peach text-xs sm:text-[15px] mt-1 flex items-center   gap-1">
+            {" "}
+            <CircleX className="text-peach w-4 h-4  " />
+            <span className="flex-1"> {errors.network}</span>
+          </div>
+        )}
         <Button
           className="mt-4 min-h-12 bg-peach hover:bg-white hover:text-semi_dark_blue text-base"
           type="submit"
@@ -126,12 +163,12 @@ const SignUpCard = () => {
       </form>
       <div className="mt-6 text-white body-medium text-center  ">
         Already have an account?{" "}
-        <Link to="login" className="text-peach cursor-pointer">
+        <Link to="/login" className="text-peach cursor-pointer">
           {" "}
           Sign In
         </Link>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
