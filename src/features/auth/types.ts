@@ -4,6 +4,7 @@ export interface FormErrors {
   email?: string | null;
   password?: string | null;
   passwordConfirm?: string | null;
+  network?: string | null;
 }
 
 export interface FormData {
