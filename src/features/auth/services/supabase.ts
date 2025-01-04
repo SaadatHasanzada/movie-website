@@ -1,9 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
 
-interface SignUpCredentials {
+interface AuthCredentials {
   email: string;
   password: string;
-  full_name?: string;
 }
 
 export const supabase = createClient(
@@ -12,39 +11,68 @@ export const supabase = createClient(
 );
 
 export const authService = {
-  signUp: async ({ email, password, full_name }: SignUpCredentials) => {
+  signUp: async ({ email, password }: AuthCredentials) => {
     try {
       const { data, error } = await supabase.auth.signUp({
         email,
-        password,
-        options: {
-          data: {
-            full_name
-          }
-        }
+        password
       });
-      if (error) {
-        console.error("Supabase Error:", {
-          message: error.message,
-          status: error.status,
-          name: error.name,
-          stack: error.stack
-        });
-        throw error;
-      }
 
+      if (error) throw error;
       return data;
     } catch (err) {
-      if (err instanceof Error) {
-        console.error("Network Error:", {
-          message: err.message,
-          name: err.name,
-          stack: err.stack
-        });
-      } else {
-        console.error("Unknown Error:", err);
-      }
-      throw err;
+      handleError(err);
     }
+  },
+
+  signIn: async ({ email, password }: AuthCredentials) => {
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      if (error) throw error;
+      return data;
+    } catch (err) {
+      handleError(err);
+    }
+  },
+  signOut: async () => {
+    try {
+      await supabase.auth.signOut();
+    } catch (err) {
+      handleError(err);
+    }
+  },
+  isAuthenticated: async () => {
+    const {
+      data: { user }
+    } = await supabase.auth.getUser();
+    console.log(user);
+    return user !== null;
   }
+};
+
+// Error handling utility
+const handleError = (err: unknown) => {
+  if (err instanceof Error) {
+    const errorDetails = {
+      message: err.message,
+      name: err.name,
+      stack: err.stack
+    };
+
+    if ("status" in err) {
+      console.error("Supabase Error:", {
+        ...errorDetails,
+        status: (err as any).status
+      });
+    } else {
+      console.error("Network Error:", errorDetails);
+    }
+  } else {
+    console.error("Unknown Error:", err);
+  }
+  throw err;
 };
