@@ -1,10 +1,27 @@
-import React from "react";
-import style from "./style.module.scss";
-import logo from "../../assets/logo.svg";
-import avatar from "../../assets/image-avatar.png";
 import { NavLink } from "react-router-dom";
+import React from "react";
+import { authService } from "@/features/auth/services/supabase";
+import avatar from "../../assets/image-avatar.png";
+import logo from "../../assets/logo.svg";
+import style from "./style.module.scss";
+import { useAuth } from "@/features/auth/hooks/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const Sidebar: React.FC = () => {
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const handleSignOut = async () => {
+    setLoading(true);
+    try {
+      await authService.signOut();
+      navigate("/");
+    } catch (error) {
+      console.error("Error signing out:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className={style.sidebar}>
       <div className={style.logo}>
@@ -55,6 +72,9 @@ const Sidebar: React.FC = () => {
       <div className={style.profile}>
         <img src={avatar} alt="Profile avatar" />
       </div>
+      <button onClick={handleSignOut} type="button">
+        Logout
+      </button>
     </div>
   );
 };
