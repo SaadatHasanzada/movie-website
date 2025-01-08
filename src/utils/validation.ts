@@ -1,4 +1,4 @@
-import { ERROR_MESSAGES, PATTERNS } from "@/constants/validation";
+import { ERROR_MESSAGES, PATTERNS } from "@/constants";
 
 interface ValidationResult {
   isValid: boolean;
