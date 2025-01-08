@@ -1,4 +1,4 @@
-import { createClient } from "@supabase/supabase-js";
+import { Session, createClient } from "@supabase/supabase-js";
 
 interface AuthCredentials {
   email: string;
@@ -49,8 +49,12 @@ export const authService = {
     const {
       data: { user }
     } = await supabase.auth.getUser();
-    console.log(user);
     return user !== null;
+  },
+  onAuthStateChanged: (callback: (session: Session | null) => void) => {
+    return supabase.auth.onAuthStateChange((_, session) => {
+      callback(session);
+    }).data.subscription;
   }
 };
 
