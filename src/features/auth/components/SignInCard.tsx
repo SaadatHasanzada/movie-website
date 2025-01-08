@@ -7,7 +7,7 @@ import React, { FormEvent, useState } from "react";
 import { validateEmail, validatePassword } from "@/utils/validation";
 
 import { Button } from "@/components/ui/button";
-import { ERROR_MESSAGES } from "@/constants/validation";
+import { ERROR_MESSAGES } from "@/constants";
 import { FormInput } from "./FormInput";
 import { authService } from "../services/supabase";
 
@@ -41,13 +41,16 @@ const SignInCard = () => {
       setLoading(true);
 
       try {
-        await authService.signIn({
+        const data = await authService.signIn({
           email,
           password
         });
-        setFormData({ email: "", password: "" });
-        setErrors({});
-        navigate("/home");
+        if (data) {
+          // setIsAuthenticated(true);
+          setFormData({ email: "", password: "" });
+          setErrors({});
+          navigate("/home");
+        }
       } catch (error) {
         if (error instanceof Error) {
           setErrors((prev) => ({
