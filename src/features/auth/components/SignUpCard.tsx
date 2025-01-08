@@ -11,13 +11,13 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { CircleX } from "lucide-react";
-import { ERROR_MESSAGES } from "@/constants/validation";
+import { ERROR_MESSAGES } from "@/constants";
 import { FormInput } from "./FormInput";
 import { Loader2 } from "lucide-react";
 import { authService } from "..//services/supabase";
 
-// fix some error validation problems, there is so much repetition
-//protected route
+// fix some error validation problems, there is so much repetition - no fix
+//protected route - home page and inside pages public-landing,sign in,registration,error page
 // research some auth methods like subscriptions
 // test account
 // structure some folders
