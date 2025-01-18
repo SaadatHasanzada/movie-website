@@ -22,6 +22,7 @@ export const ROUTES = {
   BOOKMARKS: "/bookmarks",
   LOGIN: "/login",
   REGISTRATION: "/registration",
+  PROFILE: "/profile",
   LANDING: "/"
 } as const;
 
