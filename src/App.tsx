@@ -16,11 +16,11 @@ import Home from "./pages/Home";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Movies from "./pages/Movies";
+import Profile from "./pages/Profile";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { ROUTES } from "./constants";
 import Registration from "./pages/Registration";
 import Series from "./pages/Series";
-import { authService } from "./features/auth/services/supabase";
 import { useEffect } from "react";
 import { useSearchContext } from "./contexts/SearchContext";
 
@@ -28,7 +28,8 @@ const PROTECTED_ROUTES = [
   { path: ROUTES.HOME, element: <Home /> },
   { path: ROUTES.MOVIES, element: <Movies /> },
   { path: ROUTES.SERIES, element: <Series /> },
-  { path: ROUTES.BOOKMARKS, element: <Bookmarks /> }
+  { path: ROUTES.BOOKMARKS, element: <Bookmarks /> },
+  { path: ROUTES.PROFILE, element: <Profile /> }
 ];
 
 // const AUTH_ROUTES = [
@@ -61,6 +62,8 @@ const MainRoutes = () => {
     resetSearch();
   }, [location]);
 
+  console.log("Current location:", location.pathname);
+  console.log("Is authenticated:", isAuthenticated);
   return (
     <Routes location={location} key={location.pathname}>
       <Route
@@ -69,17 +72,16 @@ const MainRoutes = () => {
           isAuthenticated ? <Navigate to={ROUTES.HOME} replace /> : <Landing />
         }
       />
-      {PROTECTED_ROUTES.map(({ path, element }) => (
-        <Route
-          key={path}
-          path={path}
-          element={
-            <ProtectedRoute isAuthenticated={isAuthenticated}>
-              {element}
-            </ProtectedRoute>
-          }
-        />
-      ))}
+
+      {PROTECTED_ROUTES.map(({ path, element }) => {
+        return (
+          <Route
+            key={path}
+            path={path}
+            element={<ProtectedRoute>{element}</ProtectedRoute>}
+          />
+        );
+      })}
       <Route path="*" element={<Error />} />
     </Routes>
   );
