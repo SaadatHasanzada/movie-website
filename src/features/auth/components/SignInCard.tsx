@@ -46,7 +46,6 @@ const SignInCard = () => {
           password
         });
         if (data) {
-          // setIsAuthenticated(true);
           setFormData({ email: "", password: "" });
           setErrors({});
           navigate("/home");
