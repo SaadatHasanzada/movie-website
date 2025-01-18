@@ -47,14 +47,27 @@ export const authService = {
   },
   isAuthenticated: async () => {
     const {
-      data: { user }
-    } = await supabase.auth.getUser();
-    return user !== null;
+      data: { session }
+    } = await supabase.auth.getSession();
+    return !!session;
   },
   onAuthStateChanged: (callback: (session: Session | null) => void) => {
     return supabase.auth.onAuthStateChange((_, session) => {
       callback(session);
     }).data.subscription;
+  }
+};
+
+export const userService = {
+  getUser: async () => {
+    try {
+      const {
+        data: { user }
+      } = await supabase.auth.getUser();
+      return user;
+    } catch (err) {
+      handleError(err);
+    }
   }
 };
 
