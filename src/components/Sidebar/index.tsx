@@ -1,27 +1,39 @@
+import "react-loading-skeleton/dist/skeleton.css";
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
+import { LogOut, UserRound } from "lucide-react";
+import { authService, userService } from "@/features/auth/services/supabase";
+
 import { NavLink } from "react-router-dom";
 import React from "react";
-import { authService } from "@/features/auth/services/supabase";
-import avatar from "../../assets/image-avatar.png";
+import Skeleton from "react-loading-skeleton";
 import logo from "../../assets/logo.svg";
 import style from "./style.module.scss";
-import { useAuth } from "@/features/auth/hooks/AuthContext";
+import { useFetch } from "@/hooks/useFetch";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 
 const Sidebar: React.FC = () => {
-  const [loading, setLoading] = useState(false);
+  const { data: user, isLoading: isUserImgLoading } = useFetch(
+    userService.getUser
+  );
+  const avatarFallback = user?.email?.charAt(0).toUpperCase();
+
   const navigate = useNavigate();
   const handleSignOut = async () => {
-    setLoading(true);
     try {
       await authService.signOut();
       navigate("/");
     } catch (error) {
       console.error("Error signing out:", error);
-    } finally {
-      setLoading(false);
     }
   };
+
   return (
     <div className={style.sidebar}>
       <div className={style.logo}>
@@ -69,12 +81,66 @@ const Sidebar: React.FC = () => {
           </NavLink>
         </li>
       </ul>
-      <div className={style.profile}>
-        <img src={avatar} alt="Profile avatar" />
-      </div>
-      <button onClick={handleSignOut} type="button">
-        Logout
-      </button>
+
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild className="cursor-pointer">
+          <Avatar
+            className={`${
+              isUserImgLoading ? "" : "bg-dusk_blue"
+            } h-8 w-8 ms:w-10 ms:h-10`}
+          >
+            {user?.user_metadata?.image && isUserImgLoading ? (
+              <Skeleton
+                circle={true}
+                baseColor="#5a6a90"
+                height={40}
+                width={40}
+                containerClassName="flex-1 leading-none"
+              />
+            ) : (
+              <AvatarImage src={user?.user_metadata?.image} />
+            )}
+            <AvatarFallback>
+              {isUserImgLoading ? (
+                <Skeleton
+                  circle={true}
+                  baseColor="#5a6a90"
+                  height={40}
+                  width={40}
+                  containerClassName="flex-1 leading-none"
+                />
+              ) : (
+                avatarFallback
+              )}
+            </AvatarFallback>
+          </Avatar>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent
+          align="center"
+          side={
+            typeof window !== "undefined" && window.innerWidth < 1025
+              ? "bottom"
+              : "right"
+          }
+          className="w-36 p-2  mr-4 ms:mr-10   bg-slate_blue border-none shadow-[rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px]  "
+        >
+          <DropdownMenuItem
+            onClick={() => navigate("/profile")}
+            className="hover:!bg-white/25 cursor-pointer"
+          >
+            <UserRound size={16} />
+            Profile
+          </DropdownMenuItem>
+
+          <DropdownMenuItem
+            onClick={handleSignOut}
+            className="hover:!bg-white/25 cursor-pointer"
+          >
+            <LogOut size={16} />
+            Sign Out
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
     </div>
   );
 };
