@@ -21,6 +21,7 @@ export default {
         peach_hover: "hsl(0, 74%, 55%)",
         dark_blue: "hsl(223, 30%, 9%)",
         semi_dark_blue: "hsl(223, 36%, 13%)",
+        slate_blue: "hsl(223, 40%, 20%)",
         dusk_blue: "hsl(223, 23%, 46%)",
         success: "hsl(120 40% 54%)",
         error: "hsl(0, 97%, 63%)",
