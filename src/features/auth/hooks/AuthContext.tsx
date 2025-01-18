@@ -6,6 +6,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
 }
+
 const AuthContext = createContext<AuthContextType>({
   isAuthenticated: false,
   isLoading: true
@@ -16,30 +17,56 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const checkAuth = async () => {
-      const authenticated = await authService.isAuthenticated();
-      setIsAuthenticated(authenticated);
-      setIsLoading(false);
+    let mounted = true;
+
+    const initializeAuth = async () => {
+      try {
+        // Check initial authentication state
+        const authenticated = await authService.isAuthenticated();
+        if (mounted) {
+          setIsAuthenticated(authenticated);
+        }
+      } catch (error) {
+        console.error("Error checking authentication:", error);
+        if (mounted) {
+          setIsAuthenticated(false);
+        }
+      } finally {
+        if (mounted) {
+          setIsLoading(false);
+        }
+      }
     };
 
-    // Set up auth listener
+    // Set up auth state listener
     const unsubscribe = authService.onAuthStateChanged((session) => {
-      setIsAuthenticated(!!session); // Convert session to boolean
-      setIsLoading(false);
+      if (mounted) {
+        setIsAuthenticated(!!session);
+        setIsLoading(false);
+      }
     });
-    checkAuth();
-    // Set up auth listener
-    // Cleanup subscription on unmount
+
+    // Check initial auth state
+    initializeAuth();
+
+    // Cleanup subscription and mounted flag
     return () => {
+      mounted = false;
       unsubscribe.unsubscribe();
     };
   }, []);
 
-  return (
-    <AuthContext.Provider value={{ isAuthenticated, isLoading }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  const value = {
+    isAuthenticated,
+    isLoading
+  };
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
+};
