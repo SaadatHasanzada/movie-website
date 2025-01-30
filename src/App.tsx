@@ -16,11 +16,11 @@ import Home from "./pages/Home";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Movies from "./pages/Movies";
-import Profile from "./pages/Profile";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { ROUTES } from "./constants";
 import Registration from "./pages/Registration";
 import Series from "./pages/Series";
+import { ToastContainer } from "react-toastify";
 import { useEffect } from "react";
 import { useSearchContext } from "./contexts/SearchContext";
 
@@ -28,8 +28,7 @@ const PROTECTED_ROUTES = [
   { path: ROUTES.HOME, element: <Home /> },
   { path: ROUTES.MOVIES, element: <Movies /> },
   { path: ROUTES.SERIES, element: <Series /> },
-  { path: ROUTES.BOOKMARKS, element: <Bookmarks /> },
-  { path: ROUTES.PROFILE, element: <Profile /> }
+  { path: ROUTES.BOOKMARKS, element: <Bookmarks /> }
 ];
 
 // const AUTH_ROUTES = [
@@ -39,7 +38,7 @@ const PROTECTED_ROUTES = [
 
 const AuthRoutes = () => {
   const location = useLocation();
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated } = useAuth();
   if (isAuthenticated) {
     return <Navigate to={ROUTES.HOME} replace />;
   }
@@ -57,13 +56,11 @@ const AuthRoutes = () => {
 const MainRoutes = () => {
   const location = useLocation();
   const { resetSearch } = useSearchContext();
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated } = useAuth();
   useEffect(() => {
     resetSearch();
   }, [location]);
 
-  console.log("Current location:", location.pathname);
-  console.log("Is authenticated:", isAuthenticated);
   return (
     <Routes location={location} key={location.pathname}>
       <Route
@@ -101,6 +98,7 @@ function App() {
     <Router>
       <AuthProvider>
         <AppContent />
+        <ToastContainer position="bottom-right" theme="dark" autoClose={2500} />
       </AuthProvider>
     </Router>
   );
