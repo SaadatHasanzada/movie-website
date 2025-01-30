@@ -12,3 +12,8 @@ export interface FormData {
   password: string;
   passwordConfirm?: string;
 }
+export interface ProfileFormData {
+  name?: string;
+  email: string;
+  password?: string;
+}
