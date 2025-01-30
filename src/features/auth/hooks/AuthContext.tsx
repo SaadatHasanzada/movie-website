@@ -5,15 +5,18 @@ import { authService } from "../services/supabase";
 interface AuthContextType {
   isAuthenticated: boolean;
   isLoading: boolean;
+  isUserUpdated?: boolean;
 }
 
 const AuthContext = createContext<AuthContextType>({
   isAuthenticated: false,
+  isUserUpdated: false,
   isLoading: true
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isUserUpdated, setIsUserUpdated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -23,6 +26,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       try {
         // Check initial authentication state
         const authenticated = await authService.isAuthenticated();
+
         if (mounted) {
           setIsAuthenticated(authenticated);
         }
@@ -39,9 +43,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     // Set up auth state listener
-    const unsubscribe = authService.onAuthStateChanged((session) => {
+    const unsubscribe = authService.onAuthStateChanged((session, event) => {
       if (mounted) {
         setIsAuthenticated(!!session);
+
+        if (event === "USER_UPDATED") {
+          setIsUserUpdated(true);
+
+          // Reset flag after a short delay
+          const timer = setTimeout(() => {
+            setIsUserUpdated(false);
+          }, 2000);
+
+          return () => clearTimeout(timer);
+        }
+
         setIsLoading(false);
       }
     });
@@ -58,6 +74,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const value = {
     isAuthenticated,
+    isUserUpdated,
     isLoading
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
