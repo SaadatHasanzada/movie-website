@@ -12,7 +12,8 @@ export const ERROR_MESSAGES = {
     "Password must be at least 8 characters long and include both letters and numbers",
   USER_EXISTS: "User already registered",
   NETWORK_ERROR: "Something went wrong",
-  LOGIN_FAILURE: "Invalid login credentials"
+  LOGIN_FAILURE: "Invalid login credentials",
+  FILE_SIZE: "File size exceeds the limit"
 } as const;
 
 export const ROUTES = {
