@@ -23,6 +23,7 @@ export default {
         semi_dark_blue: "hsl(223, 36%, 13%)",
         slate_blue: "hsl(223, 40%, 20%)",
         dusk_blue: "hsl(223, 23%, 46%)",
+        royal_blue: "hsl(225, 72%, 53%)",
         success: "hsl(120 40% 54%)",
         error: "hsl(0, 97%, 63%)",
         background: "hsl(var(--background))",
