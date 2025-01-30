@@ -29,6 +29,15 @@ export const validatePassword = (password: string): ValidationResult => {
   }
   return { isValid: true, errorMessage: null };
 };
+export const validateChangePassword = (password: string): ValidationResult => {
+  if (password.length > 0 && !PATTERNS.PASSWORD.test(password)) {
+    return {
+      isValid: false,
+      errorMessage: ERROR_MESSAGES.PASSWORD_INVALID
+    };
+  }
+  return { isValid: true, errorMessage: null };
+};
 
 export const validatePasswordMatch = (
   password: string,
@@ -36,6 +45,14 @@ export const validatePasswordMatch = (
 ): ValidationResult => {
   if (password !== confirmPassword) {
     return { isValid: false, errorMessage: ERROR_MESSAGES.PASSWORD_MISMATCH };
+  }
+  return { isValid: true, errorMessage: null };
+};
+
+export const validateFileSize = (file: File, maxSizeKB = 300) => {
+  const fileSizeKB = file.size / 1024;
+  if (fileSizeKB > maxSizeKB) {
+    return { isValid: false, errorMessage: ERROR_MESSAGES.FILE_SIZE };
   }
   return { isValid: true, errorMessage: null };
 };
