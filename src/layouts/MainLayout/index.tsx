@@ -20,6 +20,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   return (
     <div className={style.mainLayout}>
       <Sidebar />
+
       <div className={style.mainContent}>
         <SearchBar placeholder={getPlaceholder()} />
         {children}
