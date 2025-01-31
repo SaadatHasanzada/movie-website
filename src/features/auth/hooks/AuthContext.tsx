@@ -44,10 +44,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     // Set up auth state listener
     const unsubscribe = authService.onAuthStateChanged((session, event) => {
+      console.log("Auth State Change:", { event, session });
       if (mounted) {
         setIsAuthenticated(!!session);
 
-        if (event === "USER_UPDATED") {
+        if (event === "USER_UPDATED" || event === "SIGNED_IN") {
           setIsUserUpdated(true);
 
           // Reset flag after a short delay
