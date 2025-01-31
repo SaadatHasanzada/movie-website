@@ -9,7 +9,7 @@ const CircleMarker = ({ text = "Update" }) => {
 
     try {
       const marker = markerRef.current;
-      const width = marker?.offsetWidth;
+      const width = marker?.offsetWidth - 10;
       const height = 2 * marker.offsetHeight;
       const ns = "http://www.w3.org/2000/svg";
 
@@ -20,7 +20,7 @@ const CircleMarker = ({ text = "Update" }) => {
       const styles = {
         width: `${width}px`,
         height: `${height}px`,
-        transform: `scale(${(1.5 * width) / height}, 1)`,
+        transform: `scale(${(2 * width) / height}, 1)`,
         position: "absolute",
         left: "0",
         top: "-50%",
@@ -68,47 +68,37 @@ const CircleMarker = ({ text = "Update" }) => {
 
       // Generate circle path with safe math operations
       const circlePath = () => {
-        try {
-          const c = 0.551915024494;
-          const β = Math.atan(c);
-          const d = Math.sqrt(c * c + 1);
-          const r = 0.9;
+        const c = 0.551915024494;
+        const β = Math.atan(c);
+        const d = Math.sqrt(c * c + 1);
+        const r = 0.9;
 
-          // Fixed values for consistent shape
-          const dr = 0.1;
-          const θ0 = 170;
-          const dθ = 0.175;
+        // Fixed values for consistent shape
+        const dr = 0.1;
+        const θ0 = 170;
+        const dθ = 0.175;
 
-          let θ = (θ0 * Math.PI) / 180;
-          let pathData = `M${r * Math.sin(θ)},${r * Math.cos(θ)} C`;
+        let θ = (θ0 * Math.PI) / 180;
+        let pathData = `M${r * Math.sin(θ)},${r * Math.cos(θ)} C`;
 
-          pathData += `${d * r * Math.sin(θ + β)},${d * r * Math.cos(θ + β)}`;
+        pathData += `${d * r * Math.sin(θ + β)},${d * r * Math.cos(θ + β)}`;
 
-          for (let i = 0; i < 4; i++) {
-            θ += (Math.PI / 2) * (1 + dθ);
-            const newR = r * (1 + dr);
-            pathData += ` ${i ? "S" : ""} ${d * newR * Math.sin(θ - β)},${
-              d * newR * Math.cos(θ - β)
-            }`;
-            pathData += ` ${newR * Math.sin(θ)},${newR * Math.cos(θ)}`;
-          }
-
-          return pathData;
-        } catch (e) {
-          console.warn("Failed to generate circle path", e);
-          // Return a simple fallback circle if the complex path fails
-          return "M 0,1 C 0.5522847498307936,1 1,0.5522847498307936 1,0 C 1,-0.5522847498307936 0.5522847498307936,-1 0,-1 C -0.5522847498307936,-1 -1,-0.5522847498307936 -1,0 C -1,0.5522847498307936 -0.5522847498307936,1 0,1";
+        for (let i = 0; i < 4; i++) {
+          θ += (Math.PI / 2) * (1 + dθ);
+          const newR = r * (1 + dr);
+          pathData += ` ${i ? "S" : ""} ${d * newR * Math.sin(θ - β)},${
+            d * newR * Math.cos(θ - β)
+          }`;
+          pathData += ` ${newR * Math.sin(θ)},${newR * Math.cos(θ)}`;
         }
+
+        return pathData;
       };
 
       // Set path data safely
-      try {
-        path.setAttribute("d", circlePath());
-        svg.appendChild(path);
-        marker.appendChild(svg);
-      } catch (e) {
-        console.warn("Failed to append SVG elements", e);
-      }
+      path.setAttribute("d", circlePath());
+      svg.appendChild(path);
+      marker.appendChild(svg);
 
       // Cleanup function
       return () => {
@@ -126,7 +116,7 @@ const CircleMarker = ({ text = "Update" }) => {
   }, []);
 
   return (
-    <span ref={markerRef} className="relative mx-5   no-underline">
+    <span ref={markerRef} className="relative mx-4 ms:mx-5 no-underline">
       {text}
     </span>
   );
