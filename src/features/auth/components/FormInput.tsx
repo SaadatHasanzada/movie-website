@@ -1,6 +1,6 @@
 import { Eye, EyeOff } from "lucide-react";
 
-import { CircleX } from "lucide-react";
+import ErrorMessage from "@/components/ui/ErrorMessage";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 
@@ -59,11 +59,7 @@ export const FormInput = ({
         </button>
       )}
       {error && !isFocused && (
-        <div className="text-peach text-xs sm:text-[13px] mt-2 flex items-start   gap-1">
-          {" "}
-          <CircleX className="text-peach w-4 h-4  " />
-          <span className="flex-1"> {error}</span>
-        </div>
+        <ErrorMessage error={error} textClassName="text-sm sm:text-[13px]" />
       )}
     </div>
   );
