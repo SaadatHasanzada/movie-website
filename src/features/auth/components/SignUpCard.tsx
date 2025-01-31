@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { CircleX } from "lucide-react";
 import { ERROR_MESSAGES } from "@/constants";
+import ErrorMessage from "@/components/ui/ErrorMessage";
 import { FormInput } from "./FormInput";
 import { Loader2 } from "lucide-react";
 import { authService } from "..//services/supabase";
@@ -136,11 +137,10 @@ const SignUpCard = () => {
           autoComplete="new-password"
         />
         {errors.network && (
-          <div className="text-peach text-xs sm:text-[15px] mt-1 flex items-center   gap-1">
-            {" "}
-            <CircleX className="text-peach w-4 h-4  " />
-            <span className="flex-1"> {errors.network}</span>
-          </div>
+          <ErrorMessage
+            error={errors.network}
+            textClassName="text-base sm:text-[15px]"
+          />
         )}
         <Button
           className="mt-4 min-h-12 bg-peach hover:bg-white hover:text-semi_dark_blue text-base"
