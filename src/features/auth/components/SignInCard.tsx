@@ -8,6 +8,7 @@ import { validateEmail, validatePassword } from "@/utils/validation";
 
 import { Button } from "@/components/ui/button";
 import { ERROR_MESSAGES } from "@/constants";
+import ErrorMessage from "@/components/ui/ErrorMessage";
 import { FormInput } from "./FormInput";
 import { authService } from "../services/supabase";
 
@@ -98,11 +99,10 @@ const SignInCard = () => {
         />
 
         {errors.network && (
-          <div className="text-peach text-xs sm:text-[15px] mt-1 flex items-center   gap-1">
-            {" "}
-            <CircleX className="text-peach w-4 h-4  " />
-            <span className="flex-1"> {errors.network}</span>
-          </div>
+          <ErrorMessage
+            error={errors.network}
+            textClassName="text-base sm:text-[15px]"
+          />
         )}
 
         <Button
