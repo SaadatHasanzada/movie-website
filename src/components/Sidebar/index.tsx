@@ -1,163 +1,32 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger
-} from "@/components/ui/dialog";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { FormErrors, ProfileFormData } from "@/features/auth/types";
 import { LogOut, UserRound } from "lucide-react";
 import { authService, userService } from "@/features/auth/services/supabase";
-import { useEffect, useRef, useState } from "react";
-import {
-  validateChangePassword,
-  validateEmail,
-  validateFileSize
-} from "@/utils/validation";
 
-import { Button } from "../ui/button";
-import CircleMarker from "../ui/CircleMarker";
-import { ERROR_MESSAGES } from "@/constants";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Loader2 } from "lucide-react";
+import EditProfile from "@/features/profile/components/EditProfile";
 import { NavLink } from "react-router-dom";
 import React from "react";
 import UserAvatar from "../UserAvatar";
 import logo from "../../assets/logo.svg";
 import style from "./style.module.scss";
-import { toast } from "react-toastify";
 import { useAsyncService } from "@/hooks/useAsyncService";
-import { useAuth } from "@/features/auth/hooks/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const Sidebar: React.FC = () => {
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [isSaving, setIsSaving] = useState(false);
   const [previewImage, setPreviewImage] = useState<string | null>();
   const [selectedFile, setSelectedFile] = useState<File | null>();
-  const [fileErrorMessage, setFileErrorMessage] = useState<string | null>("");
-  const [errors, setErrors] = useState<FormErrors>({});
-  const [formData, setFormData] = useState<ProfileFormData>({
-    name: "",
-    email: "",
-    password: ""
-  });
+
   const {
     data: user,
     loading: isUserImgLoading,
     execute: executeGetUser
   } = useAsyncService(userService.getUser);
-  const { loading: isDeleteLoading, execute: executeDeleteProfilePhoto } =
-    useAsyncService(userService.deleteProfilePhoto, false);
-  const { isUserUpdated } = useAuth();
-  useEffect(() => {
-    if (isUserUpdated) {
-      executeGetUser();
-    }
-  }, [isUserUpdated]);
-
-  useEffect(() => {
-    if (user) {
-      setFormData({
-        name: user.user_metadata.full_name || "",
-        email: user.user_metadata.email || "",
-        password: ""
-      });
-    }
-  }, [user]);
-
-  const handleFileChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = event.target.files?.[0];
-    if (!file || !user) return;
-    const { isValid, errorMessage } = validateFileSize(file);
-
-    if (isValid) {
-      const previewUrl = URL.createObjectURL(file);
-      setPreviewImage(previewUrl);
-      setSelectedFile(file);
-      setFileErrorMessage(null);
-    } else {
-      setFileErrorMessage(errorMessage);
-    }
-  };
-
-  const handleInputChange =
-    (field: keyof typeof formData) =>
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const value = e.target.value;
-      setFormData((prev) => ({ ...prev, [field]: value }));
-
-      if (field === "email") {
-        const { errorMessage } = validateEmail(value);
-        setErrors((prev) => ({ ...prev, email: errorMessage }));
-      } else if (field === "password") {
-        const { errorMessage } = validateChangePassword(value);
-        setErrors((prev) => ({ ...prev, password: errorMessage }));
-      }
-    };
-
-  const handleSaveChanges = async () => {
-    const { name, email, password } = formData;
-    console.log(name);
-    console.log(errors);
-
-    // If there are validation errors, set them and return
-    if (errors.email || errors.password) {
-      return;
-    }
-    try {
-      setIsSaving(true);
-      // Prepare update data
-      const updateData: any = { email };
-      // Add optional fields
-      updateData.data = { full_name: name };
-      if (password) updateData.password = password;
-      if (selectedFile && user) {
-        const uploadedUrl = await userService.uploadProfilePhoto({
-          file: selectedFile,
-          user
-        });
-
-        // Add uploaded image to update data
-        if (uploadedUrl) {
-          updateData.data = {
-            ...(updateData.data || {}),
-            image: uploadedUrl
-          };
-        }
-      }
-      // Update user profile
-      console.log(updateData);
-      await userService.updateUser(updateData);
-      // Clean up
-      if (previewImage) {
-        URL.revokeObjectURL(previewImage);
-      }
-
-      // Reset states
-      setPreviewImage(undefined);
-      setSelectedFile(undefined);
-      toast("User data saved successfully", { type: "success" });
-    } catch (error) {
-      setErrors((prev) => ({
-        ...prev,
-        network: ERROR_MESSAGES.NETWORK_ERROR
-      }));
-      console.error("Profile update error:", error);
-    } finally {
-      setIsSaving(false);
-    }
-  };
 
   const handleDialogClose = () => {
     if (previewImage) {
@@ -165,13 +34,6 @@ const Sidebar: React.FC = () => {
     }
     setPreviewImage(null);
     setSelectedFile(null);
-  };
-
-  const handleDeletePhoto = () => {
-    if (!user) return;
-    setPreviewImage(null);
-    setSelectedFile(null);
-    executeDeleteProfilePhoto(user);
   };
 
   const navigate = useNavigate();
@@ -267,123 +129,15 @@ const Sidebar: React.FC = () => {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        <DialogContent className="sm:max-w-[600px] bg-dark_blue border-semi_dark_blue">
-          <DialogHeader className="mb-4">
-            <DialogTitle>
-              Hey{" "}
-              <span className="underline decoration-wavy decoration-peach">
-                {" "}
-                {user?.user_metadata?.full_name || "Cinephile"}
-              </span>
-              , <CircleMarker text="update" /> your details{" "}
-            </DialogTitle>
-          </DialogHeader>
-          <div className="flex items-center gap-4 justify-between">
-            <div className="flex gap-3 items-center">
-              <UserAvatar
-                imageUrl={previewImage || user?.user_metadata?.image}
-                email={user?.email}
-                isLoading={isUserImgLoading}
-                className="h-8 w-8 ms:w-20 ms:h-20 text-2xl "
-              />
-              <div className="max-w-28 space-y-2">
-                <p className="text-xs text-gray-500 italic ">
-                  Image should be less than 300KB
-                </p>
-                {fileErrorMessage && (
-                  <p className="text-xs text-red-500 italic">
-                    {fileErrorMessage}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            <div className="flex gap-2">
-              <input
-                type="file"
-                ref={fileInputRef}
-                onChange={handleFileChange}
-                accept="image/*"
-                className="hidden"
-              />
-              <Button
-                className=" bg-slate_blue hover:bg-slate_blue/70"
-                onClick={() => fileInputRef.current?.click()}
-              >
-                Change picture
-              </Button>
-              <Button
-                onClick={() => handleDeletePhoto()}
-                className="!w-20 bg-peach hover:bg-peach_hover"
-              >
-                {isDeleteLoading ? (
-                  <Loader2 className="animate-spin ms:!w-6 ms:!h-6" />
-                ) : (
-                  "Delete"
-                )}
-              </Button>
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            <div className="space-y-1">
-              <Label htmlFor="name" className="text-right">
-                Name
-              </Label>
-              <Input
-                id="name"
-                value={formData.name}
-                onChange={handleInputChange("name")}
-                className="w-full border-white/50"
-              />
-            </div>
-            <div className="space-y-1">
-              <Label htmlFor="email" className="text-right">
-                Email
-              </Label>
-              <Input
-                id="email"
-                value={formData.email}
-                onChange={handleInputChange("email")}
-                className="w-full border-white/50"
-                required
-              />
-              {errors.email && (
-                <p className="text-xs text-peach mt-1">{errors.email}</p>
-              )}
-            </div>
-            <div className="space-y-1">
-              <Label htmlFor="password" className="text-right">
-                Change Password
-              </Label>
-              <Input
-                type="password"
-                value={formData.password}
-                onChange={handleInputChange("password")}
-                className="w-full border-white/50"
-                autoComplete="new-password"
-              />
-              {errors.password && (
-                <p className="text-xs text-peach mt-1">{errors.password}</p>
-              )}
-            </div>
-          </div>
-
-          <DialogFooter className="mt-4">
-            <Button
-              className="w-1/4 bg-royal_blue hover:bg-royal_blue/75"
-              type="submit"
-              onClick={handleSaveChanges}
-              disabled={isSaving}
-            >
-              {isSaving ? (
-                <Loader2 className="animate-spin mr-2" />
-              ) : (
-                "Save changes"
-              )}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
+        <EditProfile
+          user={user}
+          executeGetUser={executeGetUser}
+          isUserImgLoading={isUserImgLoading}
+          previewImage={previewImage}
+          setPreviewImage={setPreviewImage}
+          selectedFile={selectedFile}
+          setSelectedFile={setSelectedFile}
+        />
       </Dialog>
     </div>
   );
