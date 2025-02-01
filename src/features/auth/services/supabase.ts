@@ -2,6 +2,7 @@ import { Session, createClient } from "@supabase/supabase-js";
 
 import { User } from "@supabase/supabase-js";
 
+//move all types
 interface AuthCredentials {
   email: string;
   password: string;
@@ -10,6 +11,19 @@ interface UpdateProfilePhotoParams {
   file: File;
   user: User;
 }
+interface GuestUserParams {
+  email: string;
+  password: string;
+  full_name: string;
+  image: string;
+}
+const guestUser: GuestUserParams = {
+  email: "guest@example.com",
+  password: "guest123",
+  full_name: "Daenerys Targaryen",
+  image:
+    "https://vxypmdmnskkzgnromfdu.supabase.co/storage/v1/object/public/profile-photos/public/Daenerys_Targaryen.jpg"
+};
 
 export const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL!,
@@ -38,6 +52,19 @@ export const authService = {
         password
       });
 
+      if (error) throw error;
+      return data;
+    } catch (err) {
+      handleError(err);
+    }
+  },
+  signInAsGuest: async () => {
+    try {
+      const { data, error } = await supabase.auth.signInAnonymously({
+        options: {
+          data: guestUser
+        }
+      });
       if (error) throw error;
       return data;
     } catch (err) {
