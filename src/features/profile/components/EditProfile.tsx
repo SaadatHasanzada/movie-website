@@ -17,7 +17,6 @@ import CircleMarker from "@/components/ui/CircleMarker";
 import { ERROR_MESSAGES } from "@/constants";
 import ErrorMessage from "@/components/ui/ErrorMessage";
 import { FormErrors } from "@/features/auth/types";
-import { FormInput } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader2 } from "lucide-react";
@@ -62,7 +61,6 @@ const EditProfile = ({
     password: ""
   });
   const isEmailChanging = formData.email !== user?.email;
-  const [isFocused, setIsFocused] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const togglePassword = () => {
     setShowPassword(!showPassword);
@@ -81,11 +79,12 @@ const EditProfile = ({
     if (user) {
       setFormData({
         name: user.user_metadata.full_name || "",
-        email: user.email || "",
+        email: user.email || user.user_metadata.email || "",
         password: ""
       });
     }
   }, [user]);
+  console.log(user);
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -122,10 +121,15 @@ const EditProfile = ({
   const handleSaveChanges = async () => {
     const { name, email, password } = formData;
 
+    if (user?.is_anonymous) {
+      toast(ERROR_MESSAGES.ANONYMOUS_USER_ERROR, { type: "error" });
+      return;
+    }
     // If there are validation errors, set them and return
     if (errors.email || errors.password) {
       return;
     }
+
     try {
       setIsSaving(true);
       // Prepare update data
@@ -188,6 +192,10 @@ const EditProfile = ({
   };
 
   const handleDeletePhoto = () => {
+    if (user?.is_anonymous) {
+      toast(ERROR_MESSAGES.ANONYMOUS_USER_ERROR, { type: "error" });
+      return;
+    }
     if (!user) return;
     setPreviewImage(null);
     setSelectedFile(null);
