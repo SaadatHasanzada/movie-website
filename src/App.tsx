@@ -31,11 +31,6 @@ const PROTECTED_ROUTES = [
   { path: ROUTES.BOOKMARKS, element: <Bookmarks /> }
 ];
 
-// const AUTH_ROUTES = [
-//   { path: ROUTES.LOGIN, element: <Login /> },
-//   { path: ROUTES.REGISTRATION, element: <Registration /> }
-// ];
-
 const AuthRoutes = () => {
   const location = useLocation();
   const { isAuthenticated } = useAuth();
