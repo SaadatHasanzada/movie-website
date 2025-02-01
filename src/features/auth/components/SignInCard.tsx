@@ -1,6 +1,5 @@
 import * as motion from "motion/react-client";
 
-import { CircleX, Loader2 } from "lucide-react";
 import { FormData, FormErrors } from "../types";
 import { Link, useNavigate } from "react-router-dom";
 import React, { FormEvent, useState } from "react";
@@ -10,7 +9,9 @@ import { Button } from "@/components/ui/button";
 import { ERROR_MESSAGES } from "@/constants";
 import ErrorMessage from "@/components/ui/ErrorMessage";
 import { FormInput } from "./FormInput";
+import { Loader2 } from "lucide-react";
 import { authService } from "../services/supabase";
+import { useAsyncService } from "@/hooks/useAsyncService";
 
 const SignInCard = () => {
   const navigate = useNavigate();
@@ -20,6 +21,11 @@ const SignInCard = () => {
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [loading, setLoading] = useState(false);
+  const {
+    execute: executeSignInGuestUser,
+    loading: loadingGuestUser,
+    error: guestUserError
+  } = useAsyncService(authService.signInAsGuest, false);
 
   const handleInputChange =
     (field: keyof typeof formData) =>
@@ -66,6 +72,16 @@ const SignInCard = () => {
     }
   };
 
+  const handleGuestUser = () => {
+    executeSignInGuestUser();
+    if (guestUserError) {
+      setErrors((prev) => ({
+        ...prev,
+        network: guestUserError.message
+      }));
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0 }}
@@ -109,7 +125,7 @@ const SignInCard = () => {
           className="mt-4 min-h-12 bg-peach hover:bg-white hover:text-semi_dark_blue text-base"
           type="submit"
         >
-          {loading ? (
+          {loading || loadingGuestUser ? (
             <Loader2 className="animate-spin ms:!w-6 ms:!h-6" />
           ) : (
             "Sign In"
@@ -118,10 +134,24 @@ const SignInCard = () => {
       </form>
       <div className="mt-6 text-white body-medium text-center  ">
         Don’t have an account?{" "}
-        <Link to="/registration" className="text-peach cursor-pointer">
+        <Link
+          to="/registration"
+          className="text-peach cursor-pointer hover:underline"
+        >
           {" "}
           Sign Up
         </Link>
+        <p>
+          Or continue as{" "}
+          <Link
+            to="/home"
+            className="text-peach cursor-pointer hover:underline"
+            onClick={handleGuestUser}
+          >
+            {" "}
+            Guest
+          </Link>
+        </p>
       </div>
     </motion.div>
   );
