@@ -17,58 +17,30 @@ const AuthContext = createContext<AuthContextType>({
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isUserUpdated, setIsUserUpdated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    let mounted = true;
-
-    const initializeAuth = async () => {
-      try {
-        // Check initial authentication state
-        const authenticated = await authService.isAuthenticated();
-
-        if (mounted) {
-          setIsAuthenticated(authenticated);
-        }
-      } catch (error) {
-        console.error("Error checking authentication:", error);
-        if (mounted) {
-          setIsAuthenticated(false);
-        }
-      } finally {
-        if (mounted) {
-          setIsLoading(false);
-        }
-      }
-    };
-
     // Set up auth state listener
     const unsubscribe = authService.onAuthStateChanged((session, event) => {
       console.log("Auth State Change:", { event, session });
-      if (mounted) {
-        setIsAuthenticated(!!session);
+      setIsAuthenticated(!!session);
 
-        if (event === "USER_UPDATED" || event === "SIGNED_IN") {
-          setIsUserUpdated(true);
+      if (event === "USER_UPDATED" || event === "SIGNED_IN") {
+        setIsUserUpdated(true);
 
-          // Reset flag after a short delay
-          const timer = setTimeout(() => {
-            setIsUserUpdated(false);
-          }, 2000);
+        // Reset flag after a short delay
+        const timer = setTimeout(() => {
+          setIsUserUpdated(false);
+        }, 2000);
 
-          return () => clearTimeout(timer);
-        }
-
-        setIsLoading(false);
+        return () => clearTimeout(timer);
       }
+
+      setIsLoading(false);
     });
 
-    // Check initial auth state
-    initializeAuth();
-
-    // Cleanup subscription and mounted flag
+    // Cleanup subscription
     return () => {
-      mounted = false;
       unsubscribe.unsubscribe();
     };
   }, []);
