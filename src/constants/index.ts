@@ -13,7 +13,8 @@ export const ERROR_MESSAGES = {
   USER_EXISTS: "User already registered",
   NETWORK_ERROR: "Something went wrong",
   LOGIN_FAILURE: "Invalid login credentials",
-  FILE_SIZE: "File size exceeds the limit"
+  FILE_SIZE: "File size exceeds the limit",
+  ANONYMOUS_USER_ERROR: "Please create an account to access this feature"
 } as const;
 
 export const ROUTES = {
