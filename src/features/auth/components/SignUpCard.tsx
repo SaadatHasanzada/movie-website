@@ -155,7 +155,7 @@ const SignUpCard = () => {
       </form>
       <div className="mt-6 text-white body-medium text-center  ">
         Already have an account?{" "}
-        <Link to="/login" className="text-peach cursor-pointer">
+        <Link to="/login" className="text-peach cursor-pointer hover:underline">
           {" "}
           Sign In
         </Link>
