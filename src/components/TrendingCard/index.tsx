@@ -1,24 +1,22 @@
+import Bookmark from "../Bookmark";
+import { Media } from "../../interfaces/Media";
+import MovieInfo from "../MovieInfo";
+import PlayButton from "../PlayButton";
 import React from "react";
 import style from "./style.module.scss";
-import MovieInfo from "../MovieInfo";
-import Bookmark from "../Bookmark";
-import { Movie } from "../../interfaces/Movie";
 import { useMediaQuery } from "react-responsive";
-import PlayButton from "../PlayButton";
 import { useState } from "react";
 
 interface TrendingCardProps {
-  TrendingMovie: Movie;
+  TrendingMedia: Media;
 }
-const TrendingCard: React.FC<TrendingCardProps> = ({ TrendingMovie }) => {
+const TrendingCard: React.FC<TrendingCardProps> = ({ TrendingMedia }) => {
   const [isHovered, setIsHovered] = useState(false);
 
-  const isMobile = useMediaQuery({ query: "(max-width: 767.98px)" });
-  const bgImage = isMobile
-    ? TrendingMovie.thumbnail.trending!.small
-    : TrendingMovie.thumbnail.trending!.large;
+  const TMDB_IMAGE_BASE_URL = import.meta.env.VITE_TMDB_IMAGE_BASE_URL;
+
   const backgroundImageStyle = {
-    backgroundImage: `url("${bgImage}")`,
+    backgroundImage: `url(${TMDB_IMAGE_BASE_URL}${TrendingMedia.backdrop_path})`
   };
 
   return (
@@ -28,12 +26,12 @@ const TrendingCard: React.FC<TrendingCardProps> = ({ TrendingMovie }) => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <Bookmark
+      {/* <Bookmark
         className
         title={TrendingMovie.title}
         isBookmarked={TrendingMovie.isBookmarked}
-      />
-      <MovieInfo customStyle {...TrendingMovie} />
+      /> */}
+      <MovieInfo isHovered={isHovered} customStyle {...TrendingMedia} />
       <PlayButton isHovered={isHovered} />
     </div>
   );
