@@ -40,7 +40,6 @@ const UserAvatar = forwardRef<React.ElementRef<typeof Avatar>, UserAvatarProps>(
 
     const showSkeleton = isLoading || (imageUrl && imgLoading);
     const showFallback = !imageUrl || imgError;
-    console.log(imageUrl);
     return (
       <>
         <img
