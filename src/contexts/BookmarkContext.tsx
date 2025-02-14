@@ -1,5 +1,6 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
-import { Movie } from "../interfaces/Movie";
+import React, { ReactNode, createContext, useContext, useState } from "react";
+
+import { Movie } from "../interfaces/Media";
 import data from "../assets/data/data.json";
 
 interface BookmarkContextType {
@@ -23,7 +24,7 @@ export const useBookmarkContext = () => {
 };
 
 export const BookmarkProvider: React.FC<BookmarkProviderProps> = ({
-  children,
+  children
 }) => {
   const [movies, setMovies] = useState<Movie[]>(data as Movie[]);
   const toggleBookmark = (title: string) => {
