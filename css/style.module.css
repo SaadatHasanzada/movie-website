@@ -1,124 +1,19 @@
-.mainLayout {
-  position: relative;
-}
-.mainLayout .mainContent {
-  padding: 64px 0 50px 36px;
-  width: calc(100% - 128px);
-  float: right;
-}
-@media (max-width: 1024px) {
-  .mainLayout .mainContent {
-    width: 100%;
-    float: unset;
-    padding: 33px 0 50px 24px;
-  }
-}
-@media (max-width: 767.98px) {
-  .mainLayout .mainContent {
-    padding: 24px 0 50px 16px;
-  }
-}}
-.movieCard:hover:after {
-  opacity: 1;
-}
-.movieCard::after {
-  content: "";
+.playButton {
+  font-size: 18px;
+  font-weight: 500;
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  opacity: 0;
-  transition: 0.3s all ease;
-}x;
-  }
-}
-@media (max-width: 767.98px) {
-  #trending .movieList {
-    gap: 16px;
-    padding-right: 16px;
-  }
-}
-#trending .movieList::-webkit-scrollbar {
-  display: none;
-}{
-  margin-bottom: 75px;
-  display: flex;
-}
-@media (max-width: 1024px) {
-  .sidebar .logo {
-    margin-bottom: 0;
-  }
-}
-@media (max-width: 767.98px) {
-  .sidebar .logo {
-    width: 25px;
-    height: 20px;
-  }
-}
-.sidebar .navButtons {
-  margin-bottom: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-}
-@media (max-width: 1024px) {
-  .sidebar .navButtons {
-    flex-direction: unset;
-    gap: 32px;
-    margin-bottom: unset;
-  }
-}
-@media (max-width: 767.98px) {
-  .sidebar .navButtons {
-    max-width: 134px;
-    justify-content: space-between;
-    width: 100%;
-    gap: unset;
-  }
-}
-.sidebar .navButtons li,
-.sidebar .navButtons li svg {
-  width: 20px;
-  height: 20px;
-}
-@media (max-width: 767.98px) {
-  .sidebar .navButtons li,
-  .sidebar .navButtons li svg {
-    height: 16px;
-    width: 16px;
-  }
-}
-.sidebar .navButtons li a:global.active svg path {
-  fill: #fff;
-}
-.sidebar .navButtons li a:global:not(.active):hover svg path {
-  fill: rgb(252, 71, 71);
-}
-.sidebar .navButtons li svg path {
-  transition: all 0.3s;
-}
-.sidebar .profile {
-  width: 40px;
-  height: 40px;
-  border: 1px solid #fff;
+  left: 14px;
+  top: 14px;
   border-radius: 50%;
-  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.25);
+  color: #fff;
+  display: none;
+  z-index: 2;
+  transform: scale(1);
+  box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.25);
+  animation: pulse-white 1300ms infinite;
 }
-@media (max-width: 1024px) {
-  .sidebar .profile {
-    width: 32px;
-    height: 32px;
-  }
-}
-@media (max-width: 767.98px) {
-  .sidebar .profile {
-    width: 24px;
-    height: 24px;
-  }
-}
-.sidebar .profile img {
-  width: 100%;
-  height: 100%;
+
+.playButtonHovered {
+  display: flex;
 }
