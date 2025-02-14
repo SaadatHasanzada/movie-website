@@ -1,11 +1,11 @@
+import Bookmark from "../Bookmark";
+import { Movie } from "../../interfaces/Media";
+import MovieInfo from "../MovieInfo";
+import PlayButton from "../PlayButton";
 import React from "react";
 import style from "./style.module.scss";
-import Bookmark from "../Bookmark";
-import MovieInfo from "../MovieInfo";
-import { Movie } from "../../interfaces/Movie";
 import { useMediaQuery } from "react-responsive";
 import { useState } from "react";
-import PlayButton from "../PlayButton";
 
 interface FilteredMediaProps {
   FilteredMedia: Movie;
@@ -24,7 +24,7 @@ const MediaCard: React.FC<FilteredMediaProps> = ({ FilteredMedia }) => {
     bgImage = FilteredMedia.thumbnail.regular.large;
   }
   const backgroundImageStyle = {
-    backgroundImage: `url(${bgImage})`,
+    backgroundImage: `url(${bgImage})`
   };
   return (
     <div
