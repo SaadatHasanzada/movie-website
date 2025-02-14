@@ -65,7 +65,6 @@ const EditProfile = ({
   const togglePassword = () => {
     setShowPassword(!showPassword);
   };
-  console.log(formData);
   const { loading: isDeleteLoading, execute: executeDeleteProfilePhoto } =
     useAsyncService(userService.deleteProfilePhoto, false);
   const { isUserUpdated } = useAuth();
@@ -84,7 +83,6 @@ const EditProfile = ({
       });
     }
   }, [user]);
-  console.log(user);
 
   const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>
