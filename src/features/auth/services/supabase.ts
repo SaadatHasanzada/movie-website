@@ -160,7 +160,6 @@ export const userService = {
       const { data, error } = await supabase.auth.updateUser(profile);
 
       if (error) throw error;
-      console.log(data);
       return data;
     } catch (err) {
       handleError(err);
