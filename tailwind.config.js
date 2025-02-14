@@ -66,6 +66,25 @@ export default {
           4: "hsl(var(--chart-4))",
           5: "hsl(var(--chart-5))"
         }
+      },
+      keyframes: {
+        "pulse-white": {
+          "0%": {
+            transform: "scale(0.95)",
+            boxShadow: "0 0 0 0 rgba(255, 255, 255, 0.7)"
+          },
+          "70%": {
+            transform: "scale(1)",
+            boxShadow: "0 0 0 10px rgba(255, 255, 255, 0)"
+          },
+          "100%": {
+            transform: "scale(0.95)",
+            boxShadow: "0 0 0 0 rgba(255, 255, 255, 0)"
+          }
+        }
+      },
+      animation: {
+        "pulse-white": "pulse-white 1300ms infinite"
       }
     }
   },
