@@ -1,7 +1,7 @@
+import MediaCard from "../MediaCard";
+import { Movie } from "../../interfaces/Media";
 import React from "react";
 import style from "./style.module.scss";
-import { Movie } from "../../interfaces/Movie";
-import MediaCard from "../MediaCard";
 import { useBookmarkContext } from "../../contexts/BookmarkContext";
 import { useSearchContext } from "../../contexts/SearchContext";
 
@@ -16,7 +16,7 @@ const MediaList: React.FC<FilterData> = ({
   FilterFunction,
   id,
   heading,
-  isBookmarkPage,
+  isBookmarkPage
 }) => {
   const { movies } = useBookmarkContext();
   const { searchQuery } = useSearchContext();
