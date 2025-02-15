@@ -1,7 +1,6 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 
 import { Media } from "../interfaces/Media";
-import style from "./style.module.scss";
 
 interface MovieInfoProps extends Media {
   customStyle?: boolean;
@@ -19,6 +18,7 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ customStyle, ...props }) => {
     isHovered
   } = props;
   let svgEl: ReactElement;
+  const [isTextHovered, setIsTextHovered] = useState(false);
 
   if (media_type === "movie") {
     svgEl = (
@@ -57,7 +57,7 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ customStyle, ...props }) => {
       <div
         className={`w-full  ${
           customStyle
-            ? "p-4 ms:p-6 bg-[linear-gradient 180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.75) 100%]"
+            ? "p-4 ms:p-6 ms:pr-[70px] bg-[linear-gradient 180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.75) 100%]"
             : "pt-2"
         } ${isHovered ? "block" : "hidden"} z-40`}
       >
@@ -93,9 +93,15 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ customStyle, ...props }) => {
         </div>
 
         <h3
-          className={`font-medium mt-[3px] ${
+          className={`inline-block font-medium mt-[3px] text-transparent bg-gradient-custom bg-clip-text bg-no-repeat transition-all duration-800 ease-out ${
             customStyle ? "text-[15px] ms:text-2xl" : "text-sm ms:text-lg "
           }`}
+          style={{
+            backgroundSize: "220% 100%",
+            backgroundPosition: isTextHovered ? "0% 50%" : "100% 50%"
+          }}
+          onMouseEnter={() => setIsTextHovered(true)}
+          onMouseLeave={() => setIsTextHovered(false)}
         >
           {title || name}
         </h3>
