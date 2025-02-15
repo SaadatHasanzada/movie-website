@@ -1,3 +1,5 @@
+// Improve code duplication
+
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
 @import "./variables";
 
@@ -46,6 +48,16 @@
 
   .display-center {
     @apply flex justify-center items-center h-screen;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
 
