@@ -85,6 +85,10 @@ export default {
       },
       animation: {
         "pulse-white": "pulse-white 1300ms infinite"
+      },
+      backgroundImage: {
+        "gradient-custom":
+          "linear-gradient(92deg, #5a0dff 0%, #ff29b8 20.6%, #ff581c 45%, #fff 55%)"
       }
     }
   },
