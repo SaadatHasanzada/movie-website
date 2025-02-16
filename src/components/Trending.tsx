@@ -1,8 +1,10 @@
+import { getMediaVideoById, getTrendingMedia } from "@/api/tmdb";
+
 import { Media } from "../interfaces/Media";
+import MediaSlider from "./MediaSlider";
 import React from "react";
 import TrendingCard from "./TrendingCard";
 import { filterTrending } from "../utils/dataFilters";
-import { getTrendingMedia } from "@/api/tmdb";
 import { useAsyncService } from "@/hooks/useAsyncService";
 import { useBookmarkContext } from "../contexts/BookmarkContext";
 
@@ -12,27 +14,34 @@ const Trending: React.FC = () => {
   const trendingData: Media[] = [];
   const { data: trendingMedia, loading: isTrendingMediaLoading } =
     useAsyncService(getTrendingMedia);
+  const { data: mediaVideo, execute: executeGetMediaVideo } = useAsyncService(
+    getMediaVideoById,
+    false
+  );
   if (trendingMedia) {
     const [movies, tvShows] = trendingMedia;
-    trendingData.push(...movies.data.results, ...tvShows.data.results);
+    const movieResults = movies.data.results;
+    const tvResults = tvShows.data.results;
+
+    const maxLength = Math.max(movieResults.length, tvResults.length);
+
+    for (let i = 0; i < maxLength; i++) {
+      if (i < movieResults.length) trendingData.push(movieResults[i]);
+      if (i < tvResults.length) trendingData.push(tvResults[i]);
+    }
   }
   return (
-    <section className="mb-6 ms:mb-10">
-      <h2 className="text-white text-[20px] ms:text-[32px] -tracking-[0.31] ms:tracking-[unset] mb-4 ms:mb-[25px]">
-        Trending
-      </h2>
-      <div className="flex flex-nowrap overflow-x-auto  gap-4 pr-4 lg:pr-6 ms:gap-10 ms:pr-9 no-scrollbar">
-        {trendingData.map((media) => {
-          return (
-            <TrendingCard
-              key={media.id}
-              TrendingMedia={media}
-              isTrendingMediaLoading={isTrendingMediaLoading}
-            />
-          );
-        })}
-      </div>
-    </section>
+    <MediaSlider title="Trending">
+      {trendingData.map((media) => (
+        <TrendingCard
+          key={media.id}
+          TrendingMedia={media}
+          isTrendingMediaLoading={isTrendingMediaLoading}
+          execute={executeGetMediaVideo}
+          mediaVideo={mediaVideo?.data?.results}
+        />
+      ))}
+    </MediaSlider>
   );
 };
 
