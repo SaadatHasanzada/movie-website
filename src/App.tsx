@@ -21,6 +21,7 @@ import { ROUTES } from "./constants";
 import Registration from "./pages/Registration";
 import Series from "./pages/Series";
 import { ToastContainer } from "react-toastify";
+import TrailerPlayer from "./components/TrailerPlayer";
 import { useEffect } from "react";
 import { useSearchContext } from "./contexts/SearchContext";
 
@@ -85,7 +86,12 @@ const AppContent = () => {
     location.pathname as "/login" | "/registration"
   );
 
-  return isAuthRoute ? <AuthRoutes /> : <MainRoutes />;
+  return (
+    <>
+      {isAuthRoute ? <AuthRoutes /> : <MainRoutes />}
+      <TrailerPlayer />
+    </>
+  );
 };
 
 function App() {

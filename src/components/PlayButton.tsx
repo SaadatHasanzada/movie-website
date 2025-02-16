@@ -3,20 +3,11 @@ import React from "react";
 interface PlayButtonProps {
   isHovered: boolean;
   onClick: () => void;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const PlayButton: React.FC<PlayButtonProps> = ({
-  isHovered,
-  onClick,
-  setIsOpen
-}) => {
-  const handleClick = () => {
-    setIsOpen(true);
-    onClick();
-  };
+const PlayButton: React.FC<PlayButtonProps> = ({ isHovered, onClick }) => {
   return (
     <div
-      onClick={handleClick}
+      onClick={onClick}
       className={`z-50 animate-pulse-white text-lg font-medium absolute bottom-4 right-4 ms:bottom-6 ms:right-6 rounded-[50%] bg-white/25 scale-[1] shadow-[0 0 0 0 rgba(255, 255, 255, 0.25)]   ${
         isHovered ? "block" : "hidden"
       } `}

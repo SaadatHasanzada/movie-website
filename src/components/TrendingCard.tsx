@@ -1,28 +1,30 @@
-import { Media, Video } from "../interfaces/Media";
+// import { AxiosResponse } from "axios";
+// import Bookmark from "./Bookmark";
 
-import { AxiosResponse } from "axios";
-import Bookmark from "./Bookmark";
+import { Media } from "../interfaces/Media";
 import MovieInfo from "./MovieInfo";
 import PlayButton from "./PlayButton";
 import React from "react";
 import Skeleton from "react-loading-skeleton";
-import TrailerPlayer from "./TrailerPlayer";
+import { getMediaVideoById } from "@/api/tmdb";
+import { useAsyncService } from "@/hooks/useAsyncService";
 import { useState } from "react";
+import { useTrailer } from "@/hooks/useTrailer";
 
 interface TrendingCardProps {
   TrendingMedia: Media;
   isTrendingMediaLoading: boolean;
-  execute: (...args: any[]) => Promise<AxiosResponse<any, any> | undefined>;
-  mediaVideo: Video[];
 }
 const TrendingCard: React.FC<TrendingCardProps> = ({
   TrendingMedia,
-  isTrendingMediaLoading,
-  execute,
-  mediaVideo
+  isTrendingMediaLoading
 }) => {
+  const { execute: executeGetMediaVideo } = useAsyncService(
+    getMediaVideoById,
+    false
+  );
   const [isHovered, setIsHovered] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const { showTrailer } = useTrailer();
 
   const TMDB_IMAGE_BASE_URL = import.meta.env.VITE_TMDB_IMAGE_BASE_URL;
 
@@ -36,8 +38,14 @@ const TrendingCard: React.FC<TrendingCardProps> = ({
       </div>
     );
   }
-  const handleGetMediaVideo = () => {
-    execute(TrendingMedia?.id, TrendingMedia?.media_type);
+  const handleGetMediaVideo = async () => {
+    const mediaVideo = await executeGetMediaVideo(
+      TrendingMedia?.id,
+      TrendingMedia?.media_type
+    );
+    if (mediaVideo) {
+      showTrailer(mediaVideo.data.results);
+    }
   };
 
   return (
@@ -54,19 +62,8 @@ const TrendingCard: React.FC<TrendingCardProps> = ({
         isBookmarked={TrendingMovie.isBookmarked}
       /> */}
         <MovieInfo isHovered={isHovered} customStyle {...TrendingMedia} />
-        <PlayButton
-          isHovered={isHovered}
-          onClick={handleGetMediaVideo}
-          setIsOpen={setIsOpen}
-        />
+        <PlayButton isHovered={isHovered} onClick={handleGetMediaVideo} />
       </div>
-      {isOpen && (
-        <TrailerPlayer
-          videos={mediaVideo}
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-        />
-      )}
     </>
   );
 };

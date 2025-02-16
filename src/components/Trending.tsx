@@ -1,23 +1,24 @@
-import { getMediaVideoById, getTrendingMedia } from "@/api/tmdb";
-
 import { Media } from "../interfaces/Media";
 import MediaSlider from "./MediaSlider";
 import React from "react";
 import TrendingCard from "./TrendingCard";
-import { filterTrending } from "../utils/dataFilters";
+import { getTrendingMedia } from "@/api/tmdb";
 import { useAsyncService } from "@/hooks/useAsyncService";
-import { useBookmarkContext } from "../contexts/BookmarkContext";
+
+// import { useBookmarkContext } from "../contexts/BookmarkContext";
+
+// import { filterTrending } from "../utils/dataFilters";
+
+
+
 
 const Trending: React.FC = () => {
-  const { movies } = useBookmarkContext();
+  // const { movies } = useBookmarkContext();
   // const trendingData: Movie[] = filterTrending(movies);
   const trendingData: Media[] = [];
   const { data: trendingMedia, loading: isTrendingMediaLoading } =
     useAsyncService(getTrendingMedia);
-  const { data: mediaVideo, execute: executeGetMediaVideo } = useAsyncService(
-    getMediaVideoById,
-    false
-  );
+
   if (trendingMedia) {
     const [movies, tvShows] = trendingMedia;
     const movieResults = movies.data.results;
@@ -37,8 +38,6 @@ const Trending: React.FC = () => {
           key={media.id}
           TrendingMedia={media}
           isTrendingMediaLoading={isTrendingMediaLoading}
-          execute={executeGetMediaVideo}
-          mediaVideo={mediaVideo?.data?.results}
         />
       ))}
     </MediaSlider>
