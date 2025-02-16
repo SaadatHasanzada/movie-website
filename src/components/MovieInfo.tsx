@@ -57,7 +57,7 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ customStyle, ...props }) => {
       <div
         className={`w-full  ${
           customStyle
-            ? "p-4 ms:p-6 ms:pr-[70px] bg-[linear-gradient 180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.75) 100%]"
+            ? "p-4 pr-[50px] ms:p-6 ms:pr-[70px] bg-[linear-gradient 180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.75) 100%]"
             : "pt-2"
         } ${isHovered ? "block" : "hidden"} z-40`}
       >
