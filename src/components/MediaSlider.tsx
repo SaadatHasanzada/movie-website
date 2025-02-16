@@ -45,24 +45,24 @@ const MediaSlider: React.FC<MediaSliderProps> = ({
         {showPrevButton && (
           <button
             onClick={handlePrev}
-            className="absolute left-0 top-0 z-50 bg-black/70 ms:p-2 h-full rounded-tr-[8px] rounded-br-[8px]
+            className="hidden ms:block   absolute left-0 top-0 z-50 bg-black/70 ms:p-2 h-full 
                      opacity-0 group-hover:opacity-100 transition-opacity duration-300"
           >
-            <ChevronLeft className="w-10 h-10 ms:w-14 ms:h-14 text-white" />
+            <ChevronLeft className="w-7 h-7 ms:w-11 ms:h-11 text-white" />
           </button>
         )}
 
         {showNextButton && (
           <button
             onClick={handleNext}
-            className="absolute right-0 top-0  z-50 bg-black/70 ms:p-2 h-full rounded-tl-[8px] rounded-bl-[8px]
+            className="hidden ms:block absolute right-0 top-0  z-50 bg-black/70 ms:p-2 h-full 
                      opacity-0 group-hover:opacity-100 transition-opacity duration-300"
           >
-            <ChevronRight className="w-10 h-10 ms:w-14 ms:h-14 text-white" />
+            <ChevronRight className="w-7 h-7 ms:w-11 ms:h-11 text-white" />
           </button>
         )}
         {/* Media Container */}
-        <div className="overflow-hidden">
+        <div className="overflow-scroll ms:overflow-hidden no-scrollbar ">
           <div
             className="flex transition-transform duration-500 ease-out gap-4 ms:gap-10"
             style={{
