@@ -1,4 +1,4 @@
-import "../css/index.css";
+import "@/styles/index.scss";
 
 import { AuthProvider, useAuth } from "./features/auth/hooks/AuthContext";
 import {
