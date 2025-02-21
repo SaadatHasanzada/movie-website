@@ -25,3 +25,25 @@ export const findTrailer = (videos: Video[] | null): Video | null => {
     ) || null
   );
 };
+
+export const handleError = (err: unknown) => {
+  if (err instanceof Error) {
+    const errorDetails = {
+      message: err.message,
+      name: err.name,
+      stack: err.stack
+    };
+
+    if ("status" in err) {
+      console.error("Supabase Error:", {
+        ...errorDetails,
+        status: (err as any).status
+      });
+    } else {
+      console.error("Network Error:", errorDetails);
+    }
+  } else {
+    console.error("Unknown Error:", err);
+  }
+  throw err;
+};
