@@ -1,6 +1,6 @@
 // import { AxiosResponse } from "axios";
-// import Bookmark from "./Bookmark";
 
+import Bookmark from "./Bookmark";
 import { Media } from "../interfaces/Media";
 import MovieInfo from "./MovieInfo";
 import PlayButton from "./PlayButton";
@@ -47,7 +47,6 @@ const TrendingCard: React.FC<TrendingCardProps> = ({
       showTrailer(mediaVideo.data.results);
     }
   };
-
   return (
     <>
       <div
@@ -56,11 +55,11 @@ const TrendingCard: React.FC<TrendingCardProps> = ({
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        {/* <Bookmark
-        className
-        title={TrendingMovie.title}
-        isBookmarked={TrendingMovie.isBookmarked}
-      /> */}
+        <Bookmark
+          className
+          mediaId={TrendingMedia?.id}
+          mediaType={TrendingMedia?.media_type}
+        />
         <MovieInfo isHovered={isHovered} customStyle {...TrendingMedia} />
         <PlayButton isHovered={isHovered} onClick={handleGetMediaVideo} />
       </div>
