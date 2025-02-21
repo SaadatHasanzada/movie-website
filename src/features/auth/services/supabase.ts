@@ -1,6 +1,7 @@
 import { Session, createClient } from "@supabase/supabase-js";
 
 import { User } from "@supabase/supabase-js";
+import { handleError } from "@/lib/utils";
 
 //move all types
 interface AuthCredentials {
@@ -99,6 +100,7 @@ export const userService = {
       const {
         data: { user }
       } = await supabase.auth.getUser();
+
       return user;
     } catch (err) {
       handleError(err);
@@ -165,27 +167,4 @@ export const userService = {
       handleError(err);
     }
   }
-};
-
-// Error handling utility
-const handleError = (err: unknown) => {
-  if (err instanceof Error) {
-    const errorDetails = {
-      message: err.message,
-      name: err.name,
-      stack: err.stack
-    };
-
-    if ("status" in err) {
-      console.error("Supabase Error:", {
-        ...errorDetails,
-        status: (err as any).status
-      });
-    } else {
-      console.error("Network Error:", errorDetails);
-    }
-  } else {
-    console.error("Unknown Error:", err);
-  }
-  throw err;
 };
