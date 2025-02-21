@@ -120,7 +120,7 @@ const EditProfile = ({
     const { name, email, password } = formData;
 
     if (user?.is_anonymous) {
-      toast(ERROR_MESSAGES.ANONYMOUS_USER_ERROR, { type: "error" });
+      toast(ERROR_MESSAGES.ANONYMOUS_USER_ERROR, { type: "info" });
       return;
     }
     // If there are validation errors, set them and return
@@ -191,7 +191,7 @@ const EditProfile = ({
 
   const handleDeletePhoto = () => {
     if (user?.is_anonymous) {
-      toast(ERROR_MESSAGES.ANONYMOUS_USER_ERROR, { type: "error" });
+      toast(ERROR_MESSAGES.ANONYMOUS_USER_ERROR, { type: "info" });
       return;
     }
     if (!user) return;
