@@ -15,7 +15,7 @@ import { ERROR_MESSAGES } from "@/constants";
 import ErrorMessage from "@/components/ui/ErrorMessage";
 import { FormInput } from "./FormInput";
 import { Loader2 } from "lucide-react";
-import { authService } from "..//services/supabase";
+import { authService } from "../services/supabase";
 
 const SignUpCard = () => {
   const location = useLocation();
