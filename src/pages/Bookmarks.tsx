@@ -1,15 +1,18 @@
-import React from "react";
 import "../styles/_variables.scss";
+import "./Bookmark.scss";
+
 import {
+  filterBookmarkedMedia,
   filterBookmarkedMovies,
   filterBookmarkedSeries,
-  filterSearchResults,
-  filterBookmarkedMedia,
+  filterSearchResults
 } from "../utils/dataFilters";
+
 import MediaList from "../components/MediaList";
+import React from "react";
+import { useBookmarkContext } from "../features/bookmark/hooks/BookmarkContext";
 import { useSearchContext } from "../contexts/SearchContext";
-import { useBookmarkContext } from "../contexts/BookmarkContext";
-import "./Bookmark.scss";
+
 const Bookmarks: React.FC = () => {
   const { searchQuery } = useSearchContext();
   const { movies } = useBookmarkContext();
