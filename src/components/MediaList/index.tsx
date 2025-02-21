@@ -2,7 +2,7 @@ import MediaCard from "../MediaCard";
 import { Movie } from "../../interfaces/Media";
 import React from "react";
 import style from "./style.module.scss";
-import { useBookmarkContext } from "../../contexts/BookmarkContext";
+import { useBookmarkContext } from "../../features/bookmark/hooks/BookmarkContext";
 import { useSearchContext } from "../../contexts/SearchContext";
 
 interface FilterData {
@@ -18,9 +18,9 @@ const MediaList: React.FC<FilterData> = ({
   heading,
   isBookmarkPage
 }) => {
-  const { movies } = useBookmarkContext();
+  // const { movies } = useBookmarkContext();
   const { searchQuery } = useSearchContext();
-  const filteredData: Movie[] = FilterFunction(movies);
+  // const filteredData: Movie[] = FilterFunction(movies);
   const pageTitle = searchQuery
     ? `Found ${filteredData.length} results for' ${searchQuery}'`
     : heading;
@@ -29,9 +29,9 @@ const MediaList: React.FC<FilterData> = ({
     <section id={`${style[id]}`}>
       <h2 className={style.title}>{pageTitle}</h2>
       <div className={style.mediaList}>
-        {filteredData.map((data) => {
+        {/* {filteredData.map((data) => {
           return <MediaCard key={data.title} FilteredMedia={data} />;
-        })}
+        })} */}
       </div>
     </section>
   );
