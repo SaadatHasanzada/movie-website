@@ -23,7 +23,6 @@ export const BookmarkService = {
         .from("bookmarks")
         .delete()
         .eq("media_id", bookmark.media_id);
-      console.log(bookmark);
       // {
       //   user_id: bookmark.user_id,
       //   media_id: bookmark.media_id,
