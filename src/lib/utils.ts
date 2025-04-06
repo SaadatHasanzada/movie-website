@@ -1,6 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { Video } from "@/interfaces/Media";
+import { Video, Media } from "@/interfaces/Media";
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -46,4 +47,28 @@ export const handleError = (err: unknown) => {
     console.error("Unknown Error:", err);
   }
   throw err;
+};
+
+export const joinMedia = (media) => {
+  const [movies, tvShows] = media;
+  const movieResults = movies.data.results;
+  const tvResults = tvShows.data.results;
+  movieResults.forEach((movie: Media) => {
+    if (!movie.media_type) {
+      movie.media_type = "movie";
+    }
+  });
+  tvResults.forEach((tv: Media) => {
+    if (!tv.media_type) {
+      tv.media_type = "tv";
+    }
+  });
+  const trendingData: Media[] = [];
+  const maxLength = Math.max(movies.length, tvResults.length);
+
+  for (let i = 0; i < maxLength; i++) {
+    if (i < movies.length) trendingData.push(movies[i]);
+    if (i < tvResults.length) trendingData.push(tvResults[i]);
+  }
+  return trendingData;
 };
