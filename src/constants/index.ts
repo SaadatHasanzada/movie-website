@@ -42,7 +42,7 @@ export const SEARCH_PLACEHOLDERS: SearchPlaceholders = {
   default: "Search for movies or TV series"
 } as const;
 
-// Predefined bookmarks for guest users
+// // Predefined bookmarks for guest users
 export const GUEST_BOOKMARKS = [
   1234, // Replace with actual media IDs
   5678,
