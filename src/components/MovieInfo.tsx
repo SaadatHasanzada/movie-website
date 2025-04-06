@@ -19,7 +19,6 @@ const MovieInfo: React.FC<MovieInfoProps> = ({ customStyle, ...props }) => {
   } = props;
   let svgEl: ReactElement;
   const [isTextHovered, setIsTextHovered] = useState(false);
-
   if (media_type === "movie") {
     svgEl = (
       <svg
