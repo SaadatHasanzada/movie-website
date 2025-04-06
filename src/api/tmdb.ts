@@ -12,3 +12,13 @@ export const getMediaVideoById = async (id: number, type: "movie" | "tv") => {
   }
   return AXIOS.get(`/tv/${id}/videos`);
 };
+
+export const getRecommendedMedia = async () => {
+  return Promise.all([
+    AXIOS.get("/movie/top_rated?language=en-US"),
+    AXIOS.get("/tv/top_rated?language=en-US")
+  ]);
+};
+
+// Get Recommended media - Guest
+// Get Recommended media - User
