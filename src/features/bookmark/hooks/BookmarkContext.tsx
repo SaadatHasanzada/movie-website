@@ -85,7 +85,6 @@ export const BookmarkProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const isBookmarked = (mediaId: number) => bookmarks.includes(mediaId);
-  console.log(isBookmarked);
 
   const toggleBookmark = async (mediaId: number, mediaType: string) => {
     try {
