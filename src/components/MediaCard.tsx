@@ -1,33 +1,25 @@
 import Bookmark from "./Bookmark";
-import { Movie } from "../interfaces/Media";
+import { Media } from "../interfaces/Media";
 import MovieInfo from "./MovieInfo";
 import PlayButton from "./PlayButton";
 import React from "react";
-import { useMediaQuery } from "react-responsive";
 import { useState } from "react";
 
 interface FilteredMediaProps {
-  FilteredMedia: Movie;
+  // FilteredMedia: Movie;
+  RecommendedMedia: Media;
+  isTrendingMediaLoading: boolean;
+  customStyle?: React.CSSProperties;
 }
-const MediaCard: React.FC<FilteredMediaProps> = ({ FilteredMedia }) => {
+const MediaCard: React.FC<FilteredMediaProps> = ({ RecommendedMedia }) => {
   const [isHovered, setIsHovered] = useState(false);
 
-  const isMobile = useMediaQuery({ query: "(max-width: 767.98px)" });
-  const isIpad = useMediaQuery({ query: "(max-width: 1024px)" });
-  let bgImage;
-  if (isMobile) {
-    bgImage = FilteredMedia.thumbnail.regular.small;
-  } else if (isIpad) {
-    bgImage = FilteredMedia.thumbnail.regular.medium;
-  } else {
-    bgImage = FilteredMedia.thumbnail.regular.large;
-  }
-  const backgroundImageStyle = {
-    backgroundImage: `url(${bgImage})`
-  };
-  const getMedia = () => {
-    console.log("recommended media");
-  };
+  const TMDB_IMAGE_BASE_URL = import.meta.env.VITE_TMDB_IMAGE_BASE_URL;
+
+  const backgroundImage = `${TMDB_IMAGE_BASE_URL}${RecommendedMedia.backdrop_path}`;
+
+  const getMedia = () => {};
+
   return (
     <div
       className="cursor-pointer"
@@ -40,16 +32,16 @@ const MediaCard: React.FC<FilteredMediaProps> = ({ FilteredMedia }) => {
       >
         <img
           className="w-full h-full group-hover:scale-110 transition-all duration-300 ease-linear"
-          src={bgImage}
+          src={backgroundImage}
           alt=""
         />
         <Bookmark
-          title={FilteredMedia.title}
-          isBookmarked={FilteredMedia.isBookmarked}
+          mediaId={RecommendedMedia?.id}
+          mediaType={RecommendedMedia?.media_type}
         />
         <PlayButton isHovered={isHovered} onClick={getMedia} defaultValue />
       </div>
-      {/* <MovieInfo {...FilteredMedia} /> */}
+      <MovieInfo {...RecommendedMedia} isHovered />
     </div>
   );
 };
