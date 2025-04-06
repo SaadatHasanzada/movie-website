@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     // Set up auth state listener
     const unsubscribe = authService.onAuthStateChanged((session, event) => {
-      console.log("Auth State Change:", { event, session });
+      // console.log("Auth State Change:", { event, session });
       setIsAuthenticated(!!session);
 
       if (event === "USER_UPDATED" || event === "SIGNED_IN") {
