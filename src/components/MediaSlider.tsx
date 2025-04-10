@@ -34,7 +34,7 @@ const MediaSlider: React.FC<MediaSliderProps> = ({
   };
 
   return (
-    <section className="mb-6 ms:mb-10">
+    <section className="mb-6 ms:mb-20">
       {title && (
         <h2 className="text-white text-[20px] ms:text-[32px] -tracking-[0.31] ms:tracking-[unset] mb-4 ms:mb-[25px] font-light">
           {title}
