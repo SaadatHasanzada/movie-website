@@ -1,4 +1,7 @@
+import { useEffect, useState } from "react";
+
 import { Media } from "../interfaces/Media";
+import MediaCard from "./MediaCard";
 import MediaSlider from "./MediaSlider";
 import React from "react";
 import TrendingCard from "./TrendingCard";
@@ -13,16 +16,15 @@ import { useAsyncService } from "@/hooks/useAsyncService";
 const Trending: React.FC = () => {
   // const { movies } = useBookmarkContext();
   // const trendingData: Movie[] = filterTrending(movies);
-  let trendingData: Media[] = [];
+  const [trendingData, setTrendingData] = useState<Media[]>([]);
   const { data: trendingMedia, loading: isTrendingMediaLoading } =
     useAsyncService(getTrendingMedia);
+  useEffect(() => {
+    if (trendingMedia) {
+      setTrendingData(joinMedia(trendingMedia));
+    }
+  }, [trendingMedia]);
 
-  if (trendingMedia) {
-    const [movies, tvShows] = trendingMedia;
-    const movieResults = movies.data.results;
-    const tvResults = tvShows.data.results;
-    trendingData = joinMedia(movieResults, tvResults);
-  }
   return (
     <MediaSlider title="Trending">
       {trendingData.map((media) => (
