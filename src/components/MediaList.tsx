@@ -53,8 +53,8 @@ const MediaList: React.FC<MediaListProps> = ({
           return (
             <MediaCard
               key={media.id}
-              RecommendedMedia={media}
-              isTrendingMediaLoading={isMediaLoading}
+              media={media}
+              isMediaLoading={isMediaLoading}
               //  FilteredMedia={data}
             />
           );
