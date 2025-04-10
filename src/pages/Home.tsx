@@ -1,8 +1,8 @@
+import React, { useEffect, useState } from "react";
 import { filterRecommended, filterSearchResults } from "../utils/dataFilters";
 
 import { Media } from "@/interfaces/Media";
 import MediaList from "../components/MediaList";
-import React from "react";
 import Trending from "../components/Trending";
 import { getRecommendedMedia } from "@/api/tmdb";
 import { joinMedia } from "@/lib/utils";
@@ -12,7 +12,7 @@ import { useSearchContext } from "../contexts/SearchContext";
 const Home: React.FC = () => {
   const { data: recommendedMedia, loading: isRecommendedMediaLoading } =
     useAsyncService(getRecommendedMedia);
-  let recommendedData: Media[] = [];
+  const [recommendedData, setRecommendedData] = useState<Media[]>([]);
 
   // why you dont use state here instead of normal variable
 
@@ -21,9 +21,11 @@ const Home: React.FC = () => {
   //   ? (movies: Media[]) => filterSearchResults(movies, searchQuery)
   //   : filterRecommended;
 
-  if (recommendedMedia) {
-    recommendedData = joinMedia(recommendedMedia);
-  }
+  useEffect(() => {
+    if (recommendedMedia) {
+      setRecommendedData(joinMedia(recommendedMedia));
+    }
+  }, [recommendedMedia]);
 
   return (
     <>
