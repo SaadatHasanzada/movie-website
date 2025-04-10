@@ -1,7 +1,7 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { Video, Media } from "@/interfaces/Media";
-
+import { AxiosResponse } from "axios";
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
@@ -49,26 +49,32 @@ export const handleError = (err: unknown) => {
   throw err;
 };
 
-export const joinMedia = (media) => {
+interface MediaResponse {
+  results: Media[];
+}
+
+export const addMediaType = (media: Media[], type: "movie" | "tv") => {
+  return media.map((item) => {
+    if (!item.media_type) {
+      item.media_type = type;
+    }
+    return item;
+  });
+};
+
+export const joinMedia = (
+  media: [AxiosResponse<MediaResponse>, AxiosResponse<MediaResponse>]
+): Media[] => {
   const [movies, tvShows] = media;
-  const movieResults = movies.data.results;
-  const tvResults = tvShows.data.results;
-  movieResults.forEach((movie: Media) => {
-    if (!movie.media_type) {
-      movie.media_type = "movie";
-    }
-  });
-  tvResults.forEach((tv: Media) => {
-    if (!tv.media_type) {
-      tv.media_type = "tv";
-    }
-  });
-  const trendingData: Media[] = [];
-  const maxLength = Math.max(movies.length, tvResults.length);
+  const movieResults = addMediaType(movies.data.results, "movie");
+  const tvResults = addMediaType(tvShows.data.results, "tv");
+  const mediaResults: Media[] = [];
+
+  const maxLength = Math.max(movieResults.length, tvResults.length);
 
   for (let i = 0; i < maxLength; i++) {
-    if (i < movies.length) trendingData.push(movies[i]);
-    if (i < tvResults.length) trendingData.push(tvResults[i]);
+    if (i < movieResults.length) mediaResults.push(movieResults[i]);
+    if (i < tvResults.length) mediaResults.push(tvResults[i]);
   }
-  return trendingData;
+  return mediaResults;
 };
