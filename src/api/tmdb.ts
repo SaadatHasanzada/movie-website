@@ -19,6 +19,22 @@ export const getRecommendedMedia = async () => {
     AXIOS.get("/tv/top_rated?language=en-US")
   ]);
 };
+export const getAllMovies = async () => {
+  return Promise.all([
+    AXIOS.get("/movie/popular?language=en-US"),
+    AXIOS.get("/movie/top_rated?language=en-US"),
+    AXIOS.get("/movie/upcoming?language=en-US"),
+    AXIOS.get("/movie/now_playing?language=en-US")
+  ]);
+};
+export const getAllTvShows = async () => {
+  return Promise.all([
+    AXIOS.get("/tv/popular?language=en-US"),
+    AXIOS.get("/tv/top_rated?language=en-US"),
+    AXIOS.get("/tv/on_the_air?language=en-US"),
+    AXIOS.get("/tv/airing_today?language=en-US")
+  ]);
+};
 
-// Get Recommended media - Guest
+// Get Recommended media - Guest +
 // Get Recommended media - User
