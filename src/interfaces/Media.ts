@@ -1,17 +1,3 @@
-import { category } from "../types/category";
-
-interface Thumbnail {
-  regular: {
-    small: string;
-    medium: string;
-    large: string;
-  };
-  trending?: {
-    small: string;
-    large: string;
-  };
-}
-
 export interface Media {
   id: number;
   adult: boolean;
