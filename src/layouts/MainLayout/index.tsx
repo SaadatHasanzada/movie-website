@@ -1,41 +1,36 @@
 import React from "react";
-import Sidebar from "../../components/Sidebar";
+import { SEARCH_PLACEHOLDERS } from "@/constants";
 import SearchBar from "../../components/Search";
-import style from './style.module.scss';
+import Sidebar from "../../components/Sidebar";
+import style from "./style.module.scss";
+import { useAuth } from "@/features/auth/hooks/AuthContext";
 import { useLocation } from "react-router-dom";
 
-interface MainLayoutProps{
-  children: React.ReactNode;  // This prop accepts any child component
+interface MainLayoutProps {
+  children: React.ReactNode;
 }
 
-const MainLayout:React.FC<MainLayoutProps> = ({children}) => {
-const location=useLocation();
+const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
+  const { pathname } = useLocation();
+  const { isAuthenticated } = useAuth();
 
-const getPlaceholder=()=>{
-  switch(location.pathname){
-    
-    case '/movies':
-      return 'Search for movies';
-    case '/series':
-      return 'Search for TV series';
-    case '/bookmarks':
-      return 'Search for bookmarked shows';
-    default:
-      return 'Search for movies or TV series';
-  }
+  const getPlaceholder = () => {
+    const path = pathname.slice(1);
+    return SEARCH_PLACEHOLDERS[path] || SEARCH_PLACEHOLDERS.default;
+  };
 
-}
-
-const placeholder=getPlaceholder();
   return (
     <div className={style.mainLayout}>
-        <Sidebar />    
+      <Sidebar />
       <div className={style.mainContent}>
-      <SearchBar placeholder={placeholder} />
-     {children}
-          </div>
-    </div>
-  )
-}
+        {isAuthenticated && pathname !== "/bookmarks" && (
+          <SearchBar placeholder={getPlaceholder()} />
+        )}
 
-export default MainLayout
+        {children}
+      </div>
+    </div>
+  );
+};
+
+export default MainLayout;

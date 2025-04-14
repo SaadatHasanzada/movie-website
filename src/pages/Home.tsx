@@ -1,25 +1,44 @@
-import React from 'react'
-import Trending from '../components/Trending'
-import MediaList from '../components/MediaList';
-import { filterRecommended,filterSearchResults } from '../utils/dataFilters';
-import { Movie } from '../interfaces/Movie';
-import { useSearchContext } from '../contexts/SearchContext';
+import React, { useEffect, useState } from "react";
+import { filterRecommended, filterSearchResults } from "../utils/dataFilters";
 
+import { Media } from "@/interfaces/Media";
+import MediaList from "../components/MediaList";
+import Trending from "../components/Trending";
+import { getRecommendedMedia } from "@/api/tmdb";
+import { joinMedia } from "@/lib/utils";
+import { useAsyncService } from "@/hooks/useAsyncService";
+import { useSearchContext } from "../contexts/SearchContext";
 
+const Home: React.FC = () => {
+  const { data: recommendedMedia, loading: isRecommendedMediaLoading } =
+    useAsyncService(getRecommendedMedia);
+  const [recommendedData, setRecommendedData] = useState<Media[]>([]);
 
-const Home:React.FC = () => {
-const {searchQuery}=useSearchContext();
-  const filterFunction = searchQuery
-  ? (movies: Movie[]) => filterSearchResults(movies, searchQuery)
-  : filterRecommended;
-  
+  // why you dont use state here instead of normal variable
+
+  const { searchQuery } = useSearchContext();
+  // const filterFunction = searchQuery
+  //   ? (movies: Media[]) => filterSearchResults(movies, searchQuery)
+  //   : filterRecommended;
+
+  useEffect(() => {
+    if (recommendedMedia) {
+      setRecommendedData(joinMedia(recommendedMedia));
+    }
+  }, [recommendedMedia]);
+
   return (
     <>
-    {!searchQuery &&  <Trending />}
-    <MediaList FilterFunction={filterFunction} id='recommended' heading='Recommended for you'/>
+      {!searchQuery && <Trending />}
+      <MediaList
+        // FilterFunction={filterFunction}
+        id="recommended"
+        heading="Recommended for you"
+        media={recommendedData}
+        isMediaLoading={isRecommendedMediaLoading}
+      />
     </>
-   
-  )
-} 
+  );
+};
 
-export default Home
+export default Home;

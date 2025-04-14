@@ -1,0 +1,128 @@
+// Improve code duplication
+
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+@import "../../node_modules/react-modal-video/scss/modal-video.scss";
+@import "./variables";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
+}
+@layer components {
+  /* Typography classes */
+  .title {
+    @apply text-[32px] font-light text-white md:text-[20px] md:tracking-[-0.31px];
+  }
+  .heading-large {
+    @apply text-[32px] font-light;
+  }
+
+  .heading-medium {
+    @apply text-2xl font-light;
+  }
+
+  .heading-small {
+    @apply text-2xl font-medium;
+  }
+
+  .heading-xs {
+    @apply text-lg font-medium;
+  }
+
+  .body-medium {
+    @apply text-[16px] font-light;
+  }
+
+  .body-small {
+    @apply text-[13px] font-light;
+  }
+
+  /* Utility classes */
+  .background-cover {
+    @apply bg-no-repeat bg-cover bg-center;
+  }
+
+  .display-center {
+    @apply flex justify-center items-center h-screen;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: $bg;
+  font-family: "Outfit", sans-serif;
+  max-width: 100%;
+  color: #fff;
+}
+
+body::-webkit-scrollbar {
+  width: 8px;
+}
+body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: $peach;
+  border-radius: 10px;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  background: rgb(252, 71, 71, 0.9);
+}
+
+ul,
+li {
+  list-style: none;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-text-fill-color: #fff !important;
+  transition: background-color 5000s ease-in-out 0s;
+  background-color: transparent !important;
+}
+.border-error {
+  border: 1px solid $peach;
+}
+.border-success {
+  border: 1px solid $border-success;
+}
+[id="radix-:r3:"] {
+  button[type="button"].absolute svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+[id="radix-:r3:"] {
+  button[type="button"].absolute {
+    top: 20px;
+  }
+}
