@@ -83,6 +83,10 @@ export default {
           }
         }
       },
+      fontFamily: {
+        outfit: ["Outfit", "sans-serif"],
+        roboto_slab: ["Roboto Slab", "serif"]
+      },
       animation: {
         "pulse-white": "pulse-white 1300ms infinite"
       },
