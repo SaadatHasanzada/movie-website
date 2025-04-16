@@ -1,6 +1,3 @@
-import "../styles/_variables.scss";
-import "./Bookmark.scss";
-
 import {
   filterBookmarkedMedia,
   filterBookmarkedMovies,
@@ -8,6 +5,7 @@ import {
   filterSearchResults
 } from "../utils/dataFilters";
 
+import BookmarkGuest from "@/components/BookmarkGuest";
 import MediaList from "../components/MediaList";
 import React from "react";
 import { useBookmarkContext } from "../features/bookmark/hooks/BookmarkContext";
@@ -21,7 +19,7 @@ const Bookmarks: React.FC = () => {
   //   ? () => filterSearchResults(bookmarkedMedia, searchQuery)
   //   : filterBookmarkedMovies;
 
-  return "test";
+  return <BookmarkGuest />;
   // return bookmarkedMedia.length > 0 || searchQuery ? (
   //   <>
   //     {/* <MediaList

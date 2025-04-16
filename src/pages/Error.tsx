@@ -1,5 +1,5 @@
-import React from "react";
 import NotFound from "../components/NotFound";
+import React from "react";
 
 const Error: React.FC = () => {
   return <NotFound />;
